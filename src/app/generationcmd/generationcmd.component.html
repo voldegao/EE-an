@@ -1,0 +1,202 @@
+<div class="coefficient-master">
+  <div>
+    <app-Menu [menuItem]="0"></app-Menu>
+  </div>
+  <div class="containerr">
+    <div class="row" style="text-align: center;margin-bottom: 15px;">
+      <h4>Génération des Commandes</h4>
+    </div>
+    <div class="row" class="filterBar">
+      <div style="display: flex;align-items: center;">
+        <div *ngIf='familleFilterContainer' style="padding-left: 4px;">
+          <select class="select-filter" [(ngModel)]="familleName">
+            <option value=""></option>
+            <option [value]="item.famille" *ngFor="let item of FamilleListe">{{item.famille}}</option>
+          </select>
+          <button class="paroBtn aff"  (click)="getDataWithFamille()"><i class="fas fa-check"></i> Afficher</button>
+          <button  class="paroBtn" (click)="showLeftBar()"><i class="fas fa-long-arrow-alt-left"></i> Retour</button>
+        </div>
+        <div *ngIf='articleFilterContainer'>
+          <select name="" id="">
+            <option value="code"></option>
+            <option value="designation"></option>
+          </select>
+          <input type="text" placeholder="Recherche ..." class="article-filter" [(ngModel)]="articleText">
+          <button class="paroBtn aff"  (click)="showArticleList()"><i class="fas fa-check"></i> Afficher</button>
+          <button  class="paroBtn" (click)="showLeftBar()"><i class="fas fa-long-arrow-alt-left"></i> Retour</button>
+        </div> 
+       
+        <div *ngIf="leftBar">
+          <button class="paroBtn" (click)="showFamilleFilter()"><i class="fas fa-level-down-alt"></i> Familles <span *ngIf="familleName">(search : "{{familleName}}" )</span></button>
+          <button class="paroBtn" (click)="showArticleFilter()"><i class="fas fa-cubes"></i> Articles <span *ngIf="articleText">(search : "{{articleText}}" )</span></button>
+         
+        </div>
+       
+      </div>
+      <div>
+        <!-- <a class="paraBtn" (click)="cli()"><i class="fas fa-table"></i> Programme </a> -->
+        <a class="paraBtn" href="#/ralance"><i class="fas fa-table"></i> Programme de Relance</a>
+        <!-- <button class="paraBtn" (click)="openParams()"><i class="fas fa-cogs"></i> Paramètres</button> -->
+        <button class="paraBtn" (click)="exportCSV()"><i class="fas fa-file-csv"></i> CSV</button>
+        <!-- <button class="paraBtn" onclick="testExport()"><i class="fas fa-file-csv"></i> test</button> -->
+        <!-- <button class="paraBtn" (click)="exportas('thepivot');"><i class="fas fa-file-excel"></i> Excel</button> -->
+        <button class="paraBtn" onclick="testExport()"><i class="fas fa-file-pdf"></i> PDF</button>
+      </div>
+    </div>
+    <!-- <div class="row" style="margin-right: 20px;margin-left: 0px;">
+      <ejs-pivotview #pivotview id='PivotView'  [gridSettings]='gridSettings' [editSettings]='editS' (cellSelected)='onCellSelected($event)' height='700' width=width [dataSourceSettings]=dataSourceSettings allowExcelExport='true' allowPdfExport='true'></ejs-pivotview>
+    </div> -->
+    <div style="padding-bottom: 50px;">
+      <span class="loading" style="padding-top:52px;margin-left: -8%;"  *ngIf='dataLoading'>
+          <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+      </span>
+      <table class="pivot2" id="thepivot">
+        <tr class="header">
+          <td></td>
+          <td></td>
+          <td *ngFor="let item of headerLoop" [attr.colspan]="getObjectValue(headerData[0],item)">
+            {{getObjectKey(headerData[0],item)}}
+          </td>
+        </tr>
+        <tr class="subheader">
+          <td style="width: 109px;">Code</td>
+          <td style="width: 296px;">Désignation</td>
+          <td *ngFor="let item of subHeaderData" style="width:84px">{{item.Month}}</td>
+        </tr>
+        <tr *ngFor="let data of uniqueArticles">
+          <td class="title" style="background-color: #f5f5f5;border: 1px solid #c8c8c8;border-top: none;border-right: none;padding-left: 4px;">
+            <span style="font-size: 13px;">{{ (data.length>8)? (data | slice:0:8)+'..':(data)}}</span>
+          </td>
+          <td colspan="13" style="padding: 0px;">
+            <table style="width: 100%;" class="tabD">
+              <tr class="data">
+                <td class="title" (click)="toggleDetails(data)" [class.plu]="data!=selectedCode">
+                  <i class="fas fa-caret-right" style="margin-right: 5px;"  *ngIf="data!=selectedCode"></i> 
+                  <i class="fas fa-caret-down" style="margin-right: 5px;" *ngIf="data==selectedCode"></i>
+                  <span> {{filterArticleName(data)}} </span>
+                </td>
+                <td colspan="12" class="vide"></td>
+              </tr>
+              <tr class="data" *ngIf="data==selectedCode">
+                <td class="subtitle">Prévisions</td>
+                <td *ngFor="let item of filterArticle(data).previsions">{{item.Amount}}</td>
+              </tr>
+              <tr class="data" *ngIf="data==selectedCode">
+                <td class="subtitle">Ventes</td>
+                <td *ngFor="let item of filterArticle(data).ventes">{{item.Amount}}</td>
+              </tr>
+              <tr class="data" *ngIf="data==selectedCode">
+                <td class="subtitle">Commande Client</td>
+                <td *ngFor="let item of filterArticle(data).cmdClient">{{item.Amount}}</td>
+              </tr>
+              <tr class="data" *ngIf="data==selectedCode">
+                <td class="subtitle">Demande Net</td>
+                <td *ngFor="let item of filterArticle(data).dmdNet">{{item.Amount}}</td>
+              </tr>
+              <tr class="data" *ngIf="data==selectedCode">
+                <td class="subtitle">Demande</td>
+                <td *ngFor="let item of filterArticle(data).demande">{{item.Amount}}</td>
+              </tr>
+              <tr class="data" *ngIf="data==selectedCode">
+                <td class="subtitle">Commande Planifiée</td>
+                <td *ngFor="let item of filterArticle(data).cmdPla">{{item.Amount}}</td>
+              </tr>
+              <tr class="data" *ngIf="data==selectedCode">
+                <td class="subtitle">Stock Projecté</td>
+                <td *ngFor="let item of filterArticle(data).stock">{{item.Amount}}</td>
+              </tr>
+              <tr class="data" *ngIf="data==selectedCode">
+                <td class="subtitle">Stock Sécurité</td>
+                <td *ngFor="let item of filterArticle(data).stocksecurite">{{item.Amount}}</td>
+              </tr>
+              <tr class="data" *ngIf="data==selectedCode">
+                <td class="subtitle">Besoin Net</td>
+                <td *ngFor="let item of filterArticle(data).besoinNet">{{item.Amount}}</td>
+              </tr>
+              <!-- <tr class="data" *ngIf="data==selectedCode">
+                <td class="subtitle">Commande à Recevoir</td>
+                <td *ngFor="let item of filterArticle(data).poR1">{{item.Amount}}</td>
+              </tr> -->
+              <tr class="data" *ngIf="data==selectedCode">
+                <td class="subtitle">Commande à Recevoir</td>
+                <td *ngFor="let item of filterArticle(data).poR1">{{item.Amount}}</td>
+              </tr>
+              <tr class="data" *ngIf="data==selectedCode" style="background-color: bisque;">
+                <td class="subtitle">Commande à Réaliser</td>
+                <td *ngFor="let item of filterArticle(data).poR2;index as i">
+                   <span (click)="showInput(data,i)" *ngIf="focused != data+i && i<10">
+                      {{checkConfirm(item.ID,item.Month,item.Amount).po}}
+                      <i class="fas fa-check" *ngIf="checkConfirm(item.ID,item.Month,item.Amount).validated"></i>
+                   </span>
+                   <span *ngIf="focused == data+i && i<10"> 
+                     <input class="inpu" type="number" [value]="checkConfirm(item.ID,item.Month,item.Amount).po"  (keyup.enter)="onEnter($event.target.value,item.ID,item.Month)">  
+                     
+                    </span>
+                </td>
+                <td colspan="2"></td>
+              </tr>
+              <!-- <tr class="data" *ngIf="data==selectedCode" style="background-color: bisque;">
+                <td class="subtitle">Commande à Réaliser</td>
+                <td *ngFor="let item of filterArticle(data).poR2;index as i">
+                   {{item.Amount}}
+                </td>
+                <td colspan="2"></td>
+              </tr> -->
+            </table>
+          </td>
+        </tr>
+        <tr>
+            <td colspan="14" style="text-align: right;padding-top: 15px;">
+                <span class="spano">
+                  <button (click)='prevPage()' class="pagebtn">Précedent</button>
+                  <span class="pager">{{currentPage}} / {{lastPage}}</span>
+                  <button (click)="nextPage()" class="pagebtn">Suivant</button>
+                </span>
+            </td>
+
+                  
+        </tr>
+        
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="control-section">
+           
+  <!-- Render Button to open the Dialog -->        
+    <ejs-dialog #Dialog id="dialog" [header]='header'  [visible]='false'
+        [showCloseIcon]='showCloseIcon' [target]='target' [width]='widthd' [height]='height' style="max-height: none;left:14%">
+        <ng-template #content>
+            <div class="formPara" style="display: flex;flex-direction: column;">
+                <span>Famille :</span>
+                <select (change)="selectFamille($event.target.value)">
+                  <option value=""></option>
+                  <option [value]="item.id" *ngFor="let item of FamilleListe">{{item.famille}}</option>
+                </select>
+                <span>Article :</span>
+                <select (change)="selectArticle($event.target.value)">
+                  <option value=""></option>
+                  <option [value]="item.id" *ngFor='let item of ArticleListe'>{{item.designation}}</option>
+                </select>
+                <span *ngIf="statusPara">Paramètre par Défault</span>
+                <span *ngIf="!statusPara">Paramètre Spécial à l'article</span>
+                <span>Stock Initial :</span>
+                <input type="number" [(ngModel)]="stockInit">
+               <div style="display: flex;justify-content: space-between;">
+                  <div style="display: flex;flex-direction: column;width: 49%;">
+                    <span>LOT :</span>
+                    <input type="number" [(ngModel)]="lot">
+                  </div>
+                  <div style="display: flex;flex-direction: column;width: 49%;">
+                    <span>Délai :</span>
+                    <input type="number" [(ngModel)]="delai">
+                  </div>
+               </div>
+                <span>DTF : </span>
+                <input type="number" [(ngModel)]="dtf">
+                <button class="paraValide" (click)="validateParams()">Valider</button>
+            </div>
+        </ng-template>
+    </ejs-dialog>
+</div>

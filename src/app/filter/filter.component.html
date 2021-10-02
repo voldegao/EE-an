@@ -1,0 +1,218 @@
+<div class="filter-master">
+    <!-- menu start -->
+    <div>
+        <div class="menu">
+            <div class="menu-items center-v">
+                <img class="EE-logo" [routerLink]="['/home']" src="assets/icon/Logo blanc.png" alt="">
+            </div>
+            <div class="menu-items center-v" style="margin-top:13vh;">
+                <i class="fas fa-sliders-h"></i>
+            </div>
+            <div class="menu-items center-v">
+                <i class="fas fa-chart-area"></i>
+            </div>
+            <div class="menu-items active center-v">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="menu-items center-v ">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <div class="menu-items center-v">
+                <i class="fas fa-suitcase"></i>
+            </div>
+            <div class="menu-items center-v" style="margin-top: 13vh;">
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+            <br>
+        </div>
+        <div class="menu-2">
+            <div class="menu-items m-deux center-v">
+                <i class="far fa-eye"></i>
+
+            </div>
+            <!-- <div class="menu-items m-deux">
+    <img class="communication-menu-2-icones"
+        src="assets/images/icon-communication/Espace de travail collaboratif.png" alt="" title="Communication">
+</div> -->
+            <div class="menu-items m-deux center-v">
+                <i class="fas fa-check-square"></i>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <i class="fas fa-hand-pointer"></i>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <i class="fas fa-signal"></i>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <i class="far fa-sticky-note"></i>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <i class="fas fa-sticky-note"></i>
+            </div>
+            <br>
+        </div>
+    </div>
+    <!-- menu end -->
+    <div class="containerr">
+        <div class="t-big">
+            <div class="row">
+
+
+                <div class="col-md-5">
+                    Bias <span>></span> Filter
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row ">
+            <div class="col-md center-v-l">
+
+                <div class="time center-v-l">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-filters">
+                      <i class="fas fa-filter"></i> Filter
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-5 center-v-l">
+
+                <div class="time center-v-l">
+                    <span>Date debut:&nbsp;&nbsp;</span>
+                    <input type="date">&nbsp;&nbsp;
+                    <span>Date Fin:&nbsp;&nbsp;</span>
+                    <input type="date">
+                </div>
+            </div>
+            <div class="col-md center-v-l">
+
+                <div class="time center-v-l">
+                    <span>Période choisi:&nbsp;6mois</span>
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+        <div class="table">
+            <div class="table-body">
+                <table class="table1">
+                    <thead class="">
+                        <tr style="    background-color: #103b69; color: white;">
+                            <th scope="col" style=" font-size: 12px; text-align: center;">Famille</th>
+                            <th scope="col" style="font-size: 12px; text-align: center;">Designation</th>
+                            <th scope="col" style="font-size: 12px; text-align: center;">Bias</th>
+                            <th scope="col" style="font-size: 12px; text-align: center;">%Bias</th>
+                            <th scope="col" style="font-size: 12px; text-align: center;">%Bias Positif</th>
+
+                            <th scope="col" style="font-size: 12px; text-align: center;"></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style=" font-size: 12px; text-align: center;"><a href="">Famille1</a></td>
+                            <td style=" font-size: 12px; text-align: center;">Designation1</td>
+                            <td style=" font-size: 12px; text-align: center;">1088</td>
+                            <td style=" font-size: 12px; text-align: center;">10859</td>
+                            <td style=" font-size: 12px; text-align: center;">10859</td>
+
+                            <td style=" font-size: 12px; text-align: center;"> <img src="../../assets/icon/Icone sonadege.png" alt="" style="margin-left: 18px;height: 18px;">
+                            </td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal fade" id="modal-filters" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content modal-filters">
+                    <!--<div class="modal-header" style="height: 29px;">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" class="btn btn-danger" style="    height: 28px;   width: 32px;">X</button>
+          </button>
+  </div>--->
+                    <div class="modal-body-div">
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                          Code
+                      </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div>is equal to</div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div class="form-group center-v drop-down">
+                                    <select class="form-control control-drop">
+                          <option selected>Choose...</option>
+                          <option>...</option>
+                      </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tre"></div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                      Date
+                  </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 center-v first-row">
+                                <input type="date" style="font-size: 12px;">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="defaultCheck1">
+                    Date fin
+                </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 center-v first-row">
+                                <input type="date" style="    font-size: 12px;                                ">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="tre"></div>
+                        <br>
+
+
+
+
+
+
+
+
+
+                        <div class="row">
+
+                            <div class="col-md-4 center-v ">
+                                <button type="button " class="btn btn-success button-ok">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

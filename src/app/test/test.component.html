@@ -1,0 +1,67 @@
+<div id="action-description">
+    <p>This sample demonstrates the way of data binding Grid component with remote service. The Grid data source is bound to
+        remote data using DataManager.
+    </p>
+</div>
+<div class="control-section">
+    <ejs-grid #grid [dataSource]='data'>
+        <e-columns>
+            <e-column field='code' headerText='Code' width='120'></e-column>
+            <e-column field='designation' headerText='Désignation' width='160'></e-column>
+            <e-column field='strategie' headerText='Stragtégie' width='120'></e-column>
+            <e-column field='Freight' headerText='Coefficient de variation' width='150' format="C2">
+                 <ng-template #template let-data>
+                    <div>
+                        <span id="Emptext">{{coefficientVariation(data.commande_g[0].Sumventes,data)}}</span>
+                      </div>                  
+                </ng-template>
+            </e-column>
+            <e-column field='classe' headerText='Classe' width='150' ></e-column>
+            <e-column field='ShipCountry' headerText='Actions' width='150' ></e-column>
+        </e-columns>
+    </ejs-grid>
+    <!-- pagination -->
+    <div class="e-gridpager e-control e-pager e-lib">
+       <div class="e-mfirst e-icons e-icon-first e-pager-default" ></div>
+       <div class="e-mprev e-icons e-icon-prev e-pager-default" [class.enabled-btn]="currentPage > 1"></div>
+       <div class="e-pagercontainer" role="navigation">
+          <div class="e-next e-icons e-icon-first e-nextpage e-pager-default disabled-btn" [class.enabled-btn]="currentPage > 1" (click)="gofirstPage()"></div>
+          <div class="e-last e-icons e-icon-prev e-lastpage e-pager-default disabled-btn" [class.enabled-btn]="currentPage > 1" (click)="prevPage()"></div>
+          <div class="e-numericcontainer" >
+             <div>
+                <a class="e-link e-numericitem e-spacing e-currentitem e-active">{{currentPage}}</a>
+            </div>
+          </div>   
+          <div class="e-next e-icons e-icon-next e-nextpage e-pager-default" [class.disabled-btn]="currentPage == lastPage" (click)="nextPage()"></div>
+          <div class="e-last e-icons e-icon-last e-lastpage e-pager-default" [class.disabled-btn]="currentPage == lastPage" (click)="golastPage()"></div>
+       </div>
+       <div class="e-parentmsgbar">
+            <span class="e-pagenomsg" style="textalign:right">{{currentPage}} sur {{lastPage}} pages </span>
+            <span class="e-pagecountmsg" style="textalign:right">({{totalItems}} articles)</span>
+        </div>
+       <div class="e-mnext e-icons e-icon-next e-nextpage e-pager-default" ></div>
+       <div class="e-mlast e-icons e-icon-last e-lastpage e-pager-default" ></div>
+    </div>
+
+</div>
+
+
+
+<div class="control-section">
+
+    <!-- Render Button to open the Dialog -->
+    <button class="e-control e-btn" style="position: absolute;" id="targetButton" (click)="onOpenDialog($event)">Open Dialog</button>
+
+    <ejs-dialog #Dialog [header]='header'  [visible]='false'
+        [showCloseIcon]='showCloseIcon' [target]='target' [width]='width' [height]='height' style="max-height: none;">
+        <ng-template #content>
+            <div >
+            <ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [tooltip]='tooltip' width='1000' height='350'>
+                <e-series-collection>
+                    <e-series [dataSource]='chartData2' type='Line' xName='month' yName='cv' name='cv' [marker]='marker'></e-series>
+                </e-series-collection>
+            </ejs-chart>
+        </div>
+        </ng-template>
+    </ejs-dialog>
+</div>

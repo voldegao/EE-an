@@ -1,0 +1,198 @@
+.detection-master {
+    width: 100vw;
+    height: 100vh;
+    .t-big {
+        font-weight: bold;
+        color: #2e2e9c;
+    }
+    .containerr {
+        margin-left: 12%;
+        padding-top: 9vh;
+        width: 87%;
+    }
+    .table {
+        width: 97%;
+        margin-top: 5vh;
+    }
+    .table1 {
+        width: 100%;
+    }
+     ::-webkit-scrollbar {
+        width: 5px;
+    }
+    /* Track */
+     ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+    /* Handle */
+     ::-webkit-scrollbar-thumb {
+        background: gray;
+        border-radius: 10px;
+    }
+    /* Handle on hover */
+     ::-webkit-scrollbar-thumb:hover {
+        background: blue;
+    }
+    .drop-down {
+        width: 80%;
+        margin-top: 2vh;
+        height: 4vh;
+        /* font-size: 7vh; */
+        font-size: 10px;
+        font-weight: bold;
+        color: green;
+    }
+    .control-drop {
+        height: 4vh;
+        /* font-size: 7vh; */
+        font-size: 10px;
+        font-weight: bold;
+        color: green;
+    }
+    .button-ok {
+        margin-left: 42vw;
+        margin-top: 1vw;
+    }
+    .tre {
+        background-color: grey;
+        height: 1px;
+        width: 100%;
+    }
+    .time {
+        font-size: 13px;
+        font-weight: bold;
+        margin-left: 1vw;
+        height: 3vw;
+    }
+    .modal-filters {
+        width: 29vw;
+        font-size: 12px;
+        font-weight: bold;
+        height: 79vh;
+    }
+    .modal-graph {
+        width: 68vw;
+        margin-left: -14vw;
+        overflow: auto;
+    }
+}
+
+
+.disabled-btn{
+    color: #d7cabd!important;
+}
+
+.enabled-btn{
+    color: black!important;
+}
+
+ejs-dialog {
+  max-height: 775px !important;
+  top: 11% !important;
+}
+
+.e-dialog .e-dlg-header-content + .e-dlg-content{
+    padding-top: 18px!important;
+}
+
+.button-filter{
+    font-size: 11px;
+    background-color: #033973;
+    border: none;
+}
+
+.e-headercell,.e-detailheadercell{
+    color: white;
+    background-color: #033973;
+}
+
+.poin{
+    cursor:pointer;
+}
+
+.menu-a{
+    border-radius: 50px;
+    background-color: #098c83;
+}
+
+.sub-a{
+    border-radius: 7px;
+    padding: 4px;
+    background-color: #098c83;
+}
+
+.e-headercell,.e-detailheadercell{
+    color: white;
+    background-color: #033973;
+}
+
+.fabtn{
+    color: white;
+    background-color: #033973;
+    padding: 4px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    margin-left: 5px;
+    text-decoration: none;
+    &:hover{
+        background-color: #034995;
+    }
+}
+
+.date-holder{
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+
+.button-filter{
+    font-size: 11px;
+    background-color: #033973;
+    border: none;
+    height: 26px;
+}
+
+.filterDate{
+    background-color: #033973;
+    color: white;
+    height: 20px;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 10px;
+    font-weight: bold;
+    margin-left: 1vw;
+}
+
+.spanFamille{
+    background-color: bisque;
+    padding: 4px 20px;
+    border-radius: 49px;
+    cursor: pointer;
+}
+
+.e-dialog .e-dlg-header-content {
+    padding: 10px 19px;
+    background-color: #033973;
+}
+.e-dialog .e-dlg-header{
+    color: white;
+}
+.e-dialog .e-dlg-header-content .e-btn.e-dlg-closeicon-btn {
+    background-color: white;
+}
+
+.loading{
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding-top: 7%;
+    background-color: white;
+    opacity: 0.8;
+    color: #033973;
+    font-size: 15px;
+    font-weight: bold;
+}

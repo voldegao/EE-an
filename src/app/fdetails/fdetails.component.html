@@ -1,0 +1,150 @@
+<div class="fdetails-master">
+    <!-- menu start -->
+    <div>
+        <app-Menu [menuItem]="1"></app-Menu>
+    </div>
+    <!-- menu end -->
+    <div class="containerr">
+        
+        <div class="t-big">
+            <div class="row">
+
+
+                <div class="col-md-5">
+                    Biais <span>></span> Famille Details
+                </div>
+            </div>
+        </div>
+        <br><br>
+
+        <div class="row " style="width: 100%;display: flex;justify-content: space-between;align-items: flex-end;margin-bottom: 6px;margin-left: 0px !important;padding: 13px 10px;
+        background-color: #ecf3fb;">
+            <div style="display: flex;">
+                <div class="time center-v-l" style="display: flex;align-items: flex-end;margin-left: 0px !important;">
+                    <div class="date-holder">
+                        <span>Date début:</span>
+                        <input type="date" [(ngModel)]="dateDebut">
+                    </div>
+                    <div class="date-holder">
+                        <span>Date Fin:</span>
+                        <input type="date" [(ngModel)]="dateFin">
+                    </div>
+                    <div>
+                        <button class="btn btn-primary button-filter " (click)="filter()" ><i class="fas fa-filter"></i> Filtrer</button>
+                    </div>
+                    <div class="filterDate" style="margin-bottom: 3px;">
+                        <!-- <span>Date debut</span>
+                        <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')">
+                        <span>Date Fin:</span>
+                        <input type="date"> -->
+                        Période : {{getMonths()}} Mois
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="">
+                <a href="#/biais" class="fabtn">Biais</a>
+                <a href="#/biaisarticle" class="fabtn">Articles</a>
+            </div>
+
+        </div>
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col-md-2">
+                <span class="loading" style="padding-top: 80%;margin-left: -8%;"  *ngIf='dataLoading'>
+                    <i class="fas fa-spinner fa-spin"></i> Familles....
+                </span>
+                <div class="Box-famille">
+                    <div class="row">
+                        <div class="col-md" style="margin-top: 10px;"  *ngFor="let item of familles">
+                            <button type="button" class="btn btn-primary btn-fam" (click)="setFamille(item.id)" [class.ac]="item.id == famille">{{item.famille}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="Box-graph">
+                    <div class="row">
+                        <div class="col-md" style="margin-top: 10px;">
+                            <span class="loading" style="padding-top: 10%"  *ngIf='dataLoadingChart'>
+                                <i class="fas fa-spinner fa-spin"></i> Chargement de données....
+                            </span>
+                            <ejs-chart #chart id="chart-container" [primaryXAxis]='primaryXAxis' [tooltip]='tooltip' width='100%' height='400'>
+                                <e-series-collection>
+                                    <e-series [dataSource]='chartData' type='Line' xName='month' yName='prevision' name='prevision' [marker]='marker'></e-series>
+                                     <e-series [dataSource]='chartData2' type='Line' xName='month' yName='demande' name='demande' [marker]='marker'></e-series>
+                                </e-series-collection>
+                            </ejs-chart>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="row" >
+           <div class="col-md" style="margin-bottom: 50px;">
+               <div class="control-section">
+                <span class="loading" style="padding-top: 10%"  *ngIf='dataLoadingTable'>
+                    <i class="fas fa-spinner fa-spin"></i> Chargement de données....
+                </span>
+                    <ejs-grid #grid [dataSource]='cvArticleDataDetails' [editSettings]='editSettings'>
+                        <e-columns>
+                            <e-column field='d' headerText='Période' width='120'>
+                                <ng-template #template let-data>
+                                    <span class="poin" *ngIf="data">{{data?.periode}}</span>
+                                </ng-template>
+                            </e-column>
+                            <e-column field='lol' headerText='Prévision' width='120' textAlign='Center'>
+                                 <ng-template #template let-data>
+                                    <div *ngIf="data">
+                                        <span id="Emptext">{{data?.prevision}}</span>
+                                      </div>                  
+                                </ng-template>
+                            </e-column>
+                            <e-column field='Freight' headerText='Ventes' width='150' textAlign='Center'>
+                                 <ng-template #template let-data>
+                                    <div *ngIf="data">
+                                        <span id="Emptext" >{{data?.demande}}</span>
+                                        <!-- <span id="Emptext" *ngIf="!getDemandes(data?.id)">0</span> -->
+                                      </div>                  
+                                </ng-template>
+                            </e-column>
+                            <e-column field='zone' headerText='Ecarts' width='150' textAlign='Center'>
+                                <ng-template #template let-data>
+                                    <div>
+                                        <span id="Emptext" >{{data?.ecart}}</span>
+                                        <!-- <span id="Emptext" *ngIf="!getDemandes(data?.id)">{{0 - getPrevisions(data?.id)}}</span> -->
+                                      </div>                  
+                                </ng-template>
+                            </e-column>
+                            <e-column field='zone2' headerText='Ecarts Cumulés' width='150' textAlign='Center'>
+                                <ng-template #template let-data>
+                                    <div>
+                                        <span id="Emptext">{{data?.ecartCumule}}</span>
+                                      </div>                  
+                                </ng-template>
+                            </e-column>
+                            
+                          
+                        </e-columns>
+                        <e-aggregates>
+                            <e-aggregate>
+                                <e-columns>
+                                    <e-column field="zone2" type="sum">
+                                        <ng-template #footerTemplate let-data>Total Cumulé : {{cumuleSave}}</ng-template>
+                                    </e-column>
+                                </e-columns>
+                                <e-columns>
+                                    
+                                </e-columns>
+                            </e-aggregate>
+                        </e-aggregates>
+                    </ejs-grid>
+                
+                </div>
+           </div>
+        </div>
+    </div>
+</div>

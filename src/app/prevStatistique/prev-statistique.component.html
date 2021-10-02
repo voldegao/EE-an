@@ -1,0 +1,562 @@
+<div class="madfamille-master">
+    <!-- menu start -->
+    <div>
+        <app-Menu [menuItem]="4"></app-Menu>
+    </div>
+    <!-- menu end -->
+    <div class="containerr">
+        <div class="t-big">
+            <div class="row">
+
+
+                <div class="col-md-5">
+                    Prévision Statistique <span>></span> FAMILLE
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row " style="margin-right: 0px;justify-content: space-between;align-items: center;">
+            <div class="col-md-5 center-v-l">
+                <input type="text" style="margin-right: 8px;" [(ngModel)]="familleFiltere" placeholder="Famille">
+                <button class="btn btn-primary button-filter " (click)="Filtrer()">
+                  <i class="fas fa-filter"></i> Filter</button>
+                <div class="time center-v-l">
+                    <!-- <span>Date debut</span>
+                    <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')">
+                    <span>Date Fin:</span>
+                    <input type="date"> -->
+                </div>
+            </div>
+            <div>
+                <span>Constante Lissage Exponentiel : </span>
+                <select [(ngModel)]="selectedAlpha" style="width:140px">
+                    <option>{{selectedAlpha}}</option>
+                    <option value="0.1">0.1</option>
+                    <option value="0.2">0.2</option>
+                    <option value="0.3">0.3</option>
+                    <option value="0.4">0.4</option>
+                    <option value="0.5">0.5</option>
+                    <option value="0.6">0.6</option>
+                    <option value="0.7">0.7</option>
+                    <option value="0.8">0.8</option>
+                    <option value="0.9">0.9</option>
+                </select>
+                <button class="button-f" (click)="validateAlpha()">Valider</button>
+            </div>
+        </div>
+        
+        
+        <!-- table mad by famille -->
+        
+        <div class="control-section">
+            <span class="loading" style="padding-top:52px;margin-left: -8%;"  *ngIf='dataLoading'>
+                <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+            </span>
+            <ejs-grid #grid [dataSource]='dataFamille' allowPaging='true' [pageSettings]='initialPage'>
+                <e-columns>
+                    <e-column field='famille' headerText='Famille' width='200'>
+                        <ng-template #template let-data>
+                            <span (click)='showFamilleArticles(data.famille)' class="familleSpan">{{data.famille}}</span>
+                        </ng-template>
+                    </e-column>
+                    <!-- <e-column field='designation' headerText='Désignation' width='160'></e-column> -->
+                    <e-column field='Moyenne Mobile' headerText='Moyenne Mobile' width='120' textAlign='Center'>
+                         <ng-template #template let-data >
+                            <div>
+                                <!-- <span >{{moyenneMobile(data.commande_d)}}</span> -->
+                                <span >{{moyenneMobile(data.commande_m)}}</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='Lissage Exponential' headerText='Lissage Exponential' width='150' textAlign='Center'>
+                         <ng-template #template let-data>
+                            <div>
+                                <span >{{lissageExpoh(data.commande_m)}}</span>
+                                <!-- <span >0</span> -->
+                            </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='Saisonnalite' headerText='Régression Linéaire' width='150' textAlign='Center'>
+                        <ng-template #template let-data>
+                           <div>
+                             <span>{{regression(data.commande_m)}}</span>
+                             </div>                  
+                       </ng-template>
+                   </e-column>
+                   <e-column field='Composition' headerText='Décomposition' width='150' textAlign='Center'>
+                        <ng-template #template let-data>
+                        <div>
+                            <span>{{calculateData(data.commandeone,data.commandetwo,data.commandethree)}}</span>
+                        </div>                  
+                    </ng-template>
+                </e-column>
+                <e-column field='ShipCountry' headerText='Etat Publication' width='150' textAlign='Center'>
+                    <ng-template #template let-data>
+                        <!-- <span class="selecetedValue" *ngIf="prevStatutFamille(data).published">Publié {{prevStatutFamille(data).articlePublished}}/{{prevStatutFamille(data).articles}}</span>
+                        <span *ngIf="!prevStatutFamille(data).published">
+                            <span (click)='getArticleDetailsPrevPubli(data.id)' class="familleSpan">
+                                <i class="fas fa-spinner fa-spin" *ngIf="loadingIcon"></i>
+                                Publier {{prevStatutFamille(data).articlePublished}}/{{prevStatutFamille(data).articles}}
+                            </span>
+                         </span> -->
+                        <span class="selecetedValue" *ngIf="prevStatutFamille(data).published || publishDone == data.id" (click)='getArticleDetailsPrevPubli(data.id)'>
+                            <i class="fas fa-spinner fa-spin" *ngIf="loadingIcon && loadID==data.id"></i>
+                            Publié ({{prevStatutFamille(data).articlePublished || articleCounts[0][data.id]}})</span>
+                        <span *ngIf="!prevStatutFamille(data).published && publishDone!=data.id">
+                            <span (click)='getArticleDetailsPrevPubli(data.id)' class="familleSpan">
+                                <i class="fas fa-spinner fa-spin" *ngIf="loadingIcon && loadID==data.id"></i>
+                                Publier ({{prevStatutFamille(data).articlePublished}})
+                            </span>
+                         </span>
+                    </ng-template>
+                </e-column>
+                <e-column field='ShipCountry' headerText='' width='60' textAlign='Center'>
+                    <ng-template #template let-data>
+                        <ion-icon name="bar-chart" (click)="onOpenDialogDetail(data.famille)"></ion-icon>
+                    </ng-template>
+                </e-column>
+                </e-columns>
+            </ejs-grid>
+        
+        </div>
+
+        <!-- <button (click)="getIDS()">llsdslds</button> -->
+        <!-- chart -->
+        <div class="control-section">
+           
+            <!-- Render Button to open the Dialog -->        
+            <ejs-dialog #Dialog [header]='header'  [visible]='false'
+                [showCloseIcon]='showCloseIcon' [target]='target' [width]='width' [height]='height' style="max-height: none;">
+                <span class="loading"  *ngIf='dataLoadingChart' style="height: 100%!important;padding-top: 110px!important;">
+                    <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+                </span>
+                <ng-template #content>
+                    <div >
+                        <div style="margin-bottom: 25px;">
+                            <table style="width: 100%;">
+                                <tr class="calcul">
+                                    <td>Méthode de calcul </td>
+                                    <td *ngFor="let item of lesMois">{{item}}</td>
+                                </tr>
+                                <tr class="met">
+                                    <td>Moyenne Mobile</td>
+                                    <td *ngFor="let item of dataFamilleMoyenne">{{item}}</td>
+                                </tr>
+                                <tr class="met">
+                                    <td>Lissage Exponentiel</td>
+                                    <td *ngFor="let item of dataFamilleLissage">{{item}}</td>
+                                </tr>
+                                <tr class="met">
+                                    <td>Régression Linéaire</td>
+                                    <td *ngFor="let item of dataFamilleRegression">{{item}}</td>
+                                    
+                                </tr>
+                                <tr class="met">
+                                    <td>Décomposition</td>
+                                    <td *ngFor="let item of dataFamilleDecomposition">{{item}}</td>
+                                   
+                                </tr>
+                            </table>
+                        </div>
+                    <ejs-chart #choix id="dashed-chartcontainer" style='display:block'  [primaryXAxis]='primaryXAxis' [tooltip]='tooltip' width='1150' height='350'>
+                        <e-series-collection>
+                            <e-series [dataSource]='chartData6'  type='Line' width="2" xName='month' yName='commande' name='Commandes' [marker]='marker'></e-series>
+                            <e-series [dataSource]='chartData2' dashArray='5' type='Line' width="2" xName='month' yName='moyenneMobile' name='Moyenne Mobile' [marker]='marker'></e-series>
+                            <e-series [dataSource]='chartData3'  dashArray='5' type='Line' width="2" xName='month' yName='lissage' name='Lissage Exponentiel' [marker]='marker'></e-series>
+                            <e-series [dataSource]='chartData4'  dashArray='5' type='Line' width="2" xName='month' yName='regression' name='Régression Linéaire' [marker]='marker'></e-series>
+                            <e-series [dataSource]='chartData5'  dashArray='5' type='Line' width="2" xName='month' yName='decomposition' name='Décomposition' [marker]='marker'></e-series>
+                           
+                        </e-series-collection>
+                    </ejs-chart>
+                </div>
+                </ng-template>
+            </ejs-dialog>
+        </div>
+
+
+
+
+        <div class="modal fade" id="modal-filters" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content modal-filters">
+                    <!--<div class="modal-header" style="height: 29px;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="btn btn-danger" style="    height: 28px;   width: 32px;">X</button>
+        </button>
+</div>--->
+                    <div class="modal-body-div">
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                        Code
+                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div>is equal to</div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div class="form-group center-v drop-down">
+                                    <select class="form-control control-drop">
+                        <option selected>Choose...</option>
+                        <option>...</option>
+                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tre"></div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                    Date
+                </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 center-v first-row">
+                                <input type="date" style="font-size: 12px;">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="defaultCheck1">
+                  Date fin
+              </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 center-v first-row">
+                                <input type="date" style="    font-size: 12px;                                ">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="tre"></div>
+                        <br>
+
+
+
+
+
+
+
+
+
+                        <div class="row">
+
+                            <div class="col-md-4 center-v ">
+                                <button type="button " class="btn btn-success button-ok">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="modal fade " id="modal-graph" tabindex="-1 " role="dialog " aria-labelledby="exampleModalLongTitle " aria-hidden="true ">
+
+            <div class="modal-dialog " role="document ">
+                <div class="modal-content modal-graph">
+                    <div class="modal-body " style=" height: 35vw; overflow: auto;">
+                        <div class="row">
+                            <div class="col">
+                                <span style="font-weight: bold;color: green;    font-size: 13px;">Famille&nbsp;&nbsp;</span><span style="font-weight: bold;    font-size: 13px;">:&nbsp;&nbsp;Nom1</span>
+                            </div>
+
+
+                        </div>
+
+                        <!-- old tabel -->
+
+                        <!-- <table class="table1" style="margin-top: 2px;">
+                            <thead class="">
+                                <tr style="    background-color: #103b69; color: white;">
+                                    <th scope="col" style="font-size: 12px; text-align: center;">Article</th>
+                                    <th scope="col" style="font-size: 12px; text-align: center;">Designation</th>
+                                    <th scope="col" style="font-size: 12px; text-align: center;">Prévision</th>
+                                    <th scope="col" style="font-size: 12px; text-align: center;">Demande</th>
+                                    <th scope="col" style="font-size: 12px; text-align: center;">Ecarts</th>
+                                    <th scope="col" style="font-size: 12px; text-align: center;"><i class="fas fa-caret-down"></i>&nbsp;Nbr MAD</th>
+                                    <th scope="col" style="font-size: 12px; text-align: center;"><i class="fas fa-caret-down"></i>&nbsp;Tracking signal</th>
+                                    <th scope="col" style="font-size: 12px; text-align: center;">Classe</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 12px; text-align: center;"><a href="">Article1</a></td>
+                                    <td style="font-size: 12px; text-align: center;">Designation1</td>
+                                    <td style="font-size: 12px; text-align: center;">1088</td>
+                                    <td style="font-size: 12px; text-align: center;">10859</td>
+                                    <td style="font-size: 12px; text-align: center;">10859</td>
+                                    <td style="font-size: 12px; text-align: center;">10859</td>
+                                    <td style="font-size: 12px; text-align: center;">1</td>
+                                    <td style="font-size: 12px; text-align: center;">A</td>
+
+
+                                </tr>
+
+                            </tbody>
+                        </table> -->
+
+                        <!-- table mad by articles -->
+                        <div class="control-section">
+                            <ejs-grid #grid [dataSource]='data' allowPaging='true'  allowPaging='true' [pageSettings]='initialPage'>
+                                <e-columns>
+                                    <e-column field='famille.famille' headerText='Famille' width='120'></e-column>
+                                    <e-column field='designation' headerText='Désignation' width='160'></e-column>
+                                    <e-column field='strategie' headerText='MAD' width='120' textAlign='Center'>
+                                         <ng-template #template let-data>
+                                            <div>
+                                                <span id="Emptext">{{getMad(data.commande_d,data.previsions)}}</span>
+                                              </div>                  
+                                        </ng-template>
+                                    </e-column>
+                                    <e-column field='Freight' headerText='Tracking Signal' width='150' textAlign='Center'>
+                                         <ng-template #template let-data>
+                                            <div>
+                                                <span id="Emptext">{{tracksignal(data.commande_d,data.previsions)}}</span>
+                                              </div>                  
+                                        </ng-template>
+                                    </e-column>
+                                    <e-column field='ShipCountry' headerText='Actions' width='150' textAlign='Center'>
+                                        <ng-template #template>
+                                            <ion-icon name="bar-chart" (click)="onOpenDialog($event,data.code)"></ion-icon>
+                                        </ng-template>
+                                    </e-column>
+                                </e-columns>
+                            </ejs-grid>
+                        
+                        </div>
+                        <br><br>
+
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            <div class="col ngs">
+                                <span style="color: green; font-size: 12px; font-weight: bold; ">Total écrats:</span> 895</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="control-section">
+    <ejs-dialog style="left: 13%!important;" #articlesMAD [header]='headera'  [visible]='false'
+        [showCloseIcon]='showCloseIcona' [target]='targeta' [width]='widtha' [height]='heighta' style="max-height: none;">
+        <ng-template #content>
+            <div class="control-section">
+                            <span class="loading"  *ngIf='dataLoadingArticles' style="height: 100%!important;padding-top: 110px!important;">
+                                <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+                            </span>
+                            <ejs-grid #grido [dataSource]='articlesData' allowPaging='true' [pageSettings]='initialPage' [toolbar]='toolbar'>
+                                <e-columns>
+                                    <e-column field='code' headerText='Code' width='90'></e-column>
+                                    <e-column field='designation' headerText='Désignation' width='290'></e-column>
+                                    <e-column field='classe' headerText='Classe' width='90' textAlign='Center'></e-column>
+                                    <e-column field='strategie' headerText='Moyenne Mobile' width='120' textAlign='Center'>
+                                         <ng-template #template let-data>
+                                            <div>
+                                                <span id="Emptext" [class.selecetedValue]="statusMethode(data?.lastprevision) == 1">{{moyenneMobile(data.commande_m)}}</span>
+                                              </div>                  
+                                        </ng-template>
+                                    </e-column>
+                                    <e-column field='Freight' headerText='Lissage Exponentiel' width='150' textAlign='Center'>
+                                         <ng-template #template let-data>
+                                            <div>
+                                                <span id="Emptext" [class.selecetedValue]="statusMethode(data?.lastprevision) == 2">{{lissageExpoh(data.commande_m)}}</span>
+                                              </div>                  
+                                        </ng-template>
+                                    </e-column>
+                                    <e-column field='zone' headerText='Régression Linéaire' width='150' textAlign='Center'>
+                                        <ng-template #template let-data>
+                                            <div>
+                                                 <span id="Emptext" [class.selecetedValue]="statusMethode(data?.lastprevision) == 3">{{regression(data.commande_m)}}</span>
+                                              </div>                  
+                                        </ng-template>
+                                    </e-column>
+                                    <e-column field='ShipCountry' headerText='Décomposition' width='120' textAlign='Center'>
+                                        <ng-template #template let-data>
+                                            <div>
+                                                 <span id="Emptext" [class.selecetedValue]="statusMethode(data?.lastprevision) == 4">{{calculateData(data.commandeone,data.commandetwo,data.commandethree)}}</span>
+                                              </div>                  
+                                        </ng-template>
+                                    </e-column>
+                                    <e-column field='ShipCountry' headerText='' width='60' textAlign='Center'>
+                                        <ng-template #template let-data>
+                                            <ion-icon name="bar-chart" (click)="opentheArticleDetail(data.code,data.id)"></ion-icon>
+                                        </ng-template>
+                                    </e-column>
+                                </e-columns>
+                            </ejs-grid>
+                           
+                        
+                        </div>
+        </ng-template>
+    </ejs-dialog>
+</div>
+
+
+
+<div class="control-section">
+    <ejs-dialog style="left: 38%!important;" #Filterdialog [header]='headerFilter'  [visible]='false'
+        [showCloseIcon]='showCloseIconFilter' [target]='target' [width]='widthFilter' [height]='heightFilter' style="max-height: none;">
+        <ng-template #content>
+            <div >
+            <table class="filterForm">
+                <tr>
+                    <td>Code </td>
+                    <td><input type="text" [(ngModel)]="codeFilter"></td>
+                </tr>
+                <tr>
+                    <td>Famille</td>
+                    <td>
+                        <select class="select-nput" [(ngModel)]="familleFilter">
+                            <option value=""></option>
+                            <option [value]="item?.famille" *ngFor="let item of familles">{{item?.famille}}</option>
+                        </select>
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td>Date</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Date Début</td>
+                    <td><input type="date" [(ngModel)]="datedFilter" style="width:100%"></td>
+                </tr>
+                <tr>
+                    <td>Date Fin</td>
+                    <td><input type="date" [(ngModel)]="datefFilter" style="width:100%"></td>
+                </tr>
+                 <tr>
+                    <td></td>
+                    <td style="text-align:right;"><button class="filterValider" (click)="filter()">Valider</button></td>
+                </tr>
+            </table>
+            </div>
+        </ng-template>
+    </ejs-dialog>
+</div>
+
+
+
+
+<div class="control-section">
+           
+    <!-- Render Button to open the Dialog -->        
+    <ejs-dialog #DialogArticleDetailInfo [header]='headerx'  [visible]='false'
+        [showCloseIcon]='showCloseIcon' [target]='target' [width]='widthx' [height]='height' style="max-height: none;">
+        <ng-template #content>
+            <div >
+                <div style="margin-bottom: 25px;">
+                    <span class="loading"  *ngIf='dataLoadingArticleDetail' style="height: 100%!important;padding-top: 110px!important;">
+                        <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+                    </span>
+                    <table style="width: 100%;">
+                        <tr class="calcul">
+                            <td>Méthode de calcul </td>
+                            <td *ngFor="let item of lesMoisa">{{item}}</td>
+                            <td >Action</td>
+                        </tr>
+                        <tr class="met" [class.selectedMethode]="methodeSelected == 1">
+                            <td>Moyenne Mobile</td>
+                            <td style="text-align: center;" *ngFor="let item of dataArticleDetailMoyenne">{{item}}</td>
+                            <td style="text-align: center;" *ngIf="methodeSelected == 1"><span>Publié</span> </td>
+                            <td style="text-align: center;" *ngIf="methodeSelected != 1"><span class="familleSpan" (click)="PublishArticleMethodeMoyenne()">Publier</span> </td>
+                        </tr>
+                        <tr class="met" [class.selectedMethode]="methodeSelected == 2">
+                            <td>Lissage Exponentiel</td>
+                            <td style="text-align: center;" *ngFor="let item of dataArticleDetailLissage; let index = index">{{item}}</td>
+                            <td style="text-align: center;" *ngIf="methodeSelected == 2"><span >Publié</span> </td>
+                            <td style="text-align: center;" *ngIf="methodeSelected != 2"><span class="familleSpan" (click)="PublishArticle()">Publier</span> </td>
+                        </tr>
+                        <tr class="met" [class.selectedMethode]="methodeSelected == 3">
+                            <td>Régression Linéaire</td>
+                            <td style="text-align: center;" *ngFor="let item of dataArticleDetailRegression">{{item}}</td>
+                            <td style="text-align: center;" *ngIf="methodeSelected == 3"><span>Publié</span> </td>
+                            <td style="text-align: center;" *ngIf="methodeSelected != 3"><span class="familleSpan" (click)="PublishArticleRegression()">Publier</span> </td>
+                        </tr>
+                        <tr class="met" [class.selectedMethode]="methodeSelected == 4">
+                            <td>Décomposition</td>
+                            <td style="text-align: center;" *ngFor="let item of dataArticleDetailDecomposition">{{item}}</td>
+                            <td style="text-align: center;" *ngIf="methodeSelected == 4"><span >Publié</span> </td>
+                            <td style="text-align: center;" *ngIf="methodeSelected != 4"><span class="familleSpan" (click)="PublishArticleDecomposition()">Publier</span></td>
+                        </tr>
+                    </table>
+                </div>
+            <ejs-chart #choixarticle id="dashed-chartcontainer" style='display:block'  [primaryXAxis]='primaryXAxis' [tooltip]='tooltip' width='1260' height='350'>
+                <e-series-collection>
+                    <e-series [dataSource]='chartData7'  type='Line' width="2" xName='month' yName='commande' name='Commandes' [marker]='marker'></e-series>
+                    <e-series [dataSource]='chartData8' dashArray='5' type='Line' width="2" xName='month' yName='moyenneMobile' name='Moyenne Mobile' [marker]='marker'></e-series>
+                    <e-series [dataSource]='chartData9'  dashArray='5' type='Line' width="2" xName='month' yName='lissage' name='Lissage Exponentiel' [marker]='marker'></e-series>
+                    <e-series [dataSource]='chartData10'  dashArray='5' type='Line' width="2" xName='month' yName='regression' name='Régression Linéaire' [marker]='marker'></e-series>
+                    <e-series [dataSource]='chartData11'  dashArray='5' type='Line' width="2" xName='month' yName='decomposition' name='Décomposition' [marker]='marker'></e-series>
+                   
+                </e-series-collection>
+            </ejs-chart>
+        </div>
+        </ng-template>
+    </ejs-dialog>
+</div>
+
+
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
+    
+    #dashed-chartcontainer_Series_1,
+    #dashed-chartcontainer_Series_2,
+    #dashed-chartcontainer_Series_3,
+    #dashed-chartcontainer_Series_0 {
+        stroke-dasharray: 10px 10px;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        -webkit-animation: dash 1s linear infinite;
+        animation: dash 1s linear infinite;
+    }
+    
+    #dashed-chartcontainer_Series_0_Point_3_Symbol {
+        -webkit-animation: opac 1s ease-out infinite;
+        animation: opac 1s ease-out infinite;
+    }
+    
+    @-webkit-keyframes dash {
+        100% {
+            stroke-dashoffset: -20px;
+        }
+    }
+    
+    @keyframes dash {
+        100% {
+            stroke-dashoffset: -20px;
+        }
+    }
+    
+    @keyframes opac {
+        0% {
+            stroke-opacity: 1;
+            stroke-width: 0px;
+        }
+        100% {
+            stroke-opacity: 0;
+            stroke-width: 10px;
+        }
+    }
+</style>

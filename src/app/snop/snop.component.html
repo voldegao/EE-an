@@ -1,0 +1,77 @@
+<div class="coefficient-master">
+  <div>
+    <app-Menu [menuItem]="9"></app-Menu>
+  </div>
+  <div class="containerr">
+    <div class="row" style="text-align: center;margin-bottom: 15px;">
+      <h4>Plan de Demande Global</h4>
+    </div>
+    <div class="row" class="filterBar">
+      <div style="display: flex;align-items: center; justify-content: space-between;width: 100%;">
+        <div *ngIf='familleFilterContainer' style="padding-left: 4px;">
+          <select class="select-filter" [(ngModel)]="Familleid">
+            <option value=""></option>
+            <option [value]="item.id" *ngFor="let item of FamilleListe">{{item.famille}}</option>
+          </select>
+          <button class="paroBtn aff"  (click)="getDataWithFamille()"><i class="fas fa-check"></i> Afficher</button>
+          <button  class="paroBtn" (click)="showLeftBar()"><i class="fas fa-long-arrow-alt-left"></i> Retour</button>
+        </div>
+        <div *ngIf='articleFilterContainer'>
+          <input type="text" placeholder="Recherche ..." class="article-filter" [(ngModel)]="articleText">
+          <button class="paroBtn aff"  (click)="showArticleList()"><i class="fas fa-check"></i> Afficher</button>
+          <button  class="paroBtn" (click)="showLeftBar()"><i class="fas fa-long-arrow-alt-left"></i> Retour</button>
+        </div> 
+       
+        <div *ngIf="leftBar">
+          <button class="paroBtn" (click)="showFamilleFilter()"><i class="fas fa-level-down-alt"></i> Familles <span *ngIf="familleName">(search : "{{familleName}}" )</span></button>
+          <a class="paroBtn" href="#/snopdetails" style="color:black;text-decoration:none"><i class="fas fa-cubes"></i> Détails</a>
+        </div>
+        <div>
+          <button class="paraBtn"><i class="fas fa-dollar-sign"></i> Valeur</button>
+          <button class="paraBtn"><i class="fas fa-sort-numeric-up-alt"></i> Volume</button>
+        </div>
+       
+      </div>
+      <div>
+      </div>
+    </div>
+    <div class="row" style="margin-right: 20px;margin-left: 0px;">
+      <span class="loading" style="padding-top:52px;margin-left: -8%;"  *ngIf='dataLoading'>
+        <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+      </span>
+     <table class="table-snop" style="margin-bottom: 90px;">
+       <tr class="header">
+         <td class="title" style="width: 200px;">Période </td>
+         <td *ngFor="let item of getDateRange().dateRange" style="width: 90px;">{{item}}</td>
+       </tr>
+       <tr *ngFor="let famille of FamilleData">
+         <td colspan="13" style="padding: 0px;">
+          <table style="width: 100%;" class="tabD">
+            <tr class="subheader">
+              <td class="sub">Famille : {{famille.famille}}</td>
+              <td colspan="12"></td>
+            </tr>
+            <tr>
+              <td class="subtitle" style="width: 200px;">Prévision demande</td>
+              <td *ngFor="let item of checkPrevision(famille.previsions)" style="width: 90px;">{{item}}</td>
+             </tr>
+             <tr>
+              <td class="subtitle" style="width: 200px;">Planification Appro</td>
+              <td *ngFor="let item of checkOrderPlani(famille.orderreceipt)" style="width: 90px;">{{item}}</td>
+             </tr>
+             <tr>
+              <td class="subtitle" style="width: 200px;">Stock</td>
+              <td *ngFor="let item of transformStock(famille)" style="width: 90px;">{{item}}</td>
+             </tr>
+          </table>
+         </td>
+          
+        </tr>
+      
+     
+
+      
+     </table>
+    </div>
+  </div>
+</div>

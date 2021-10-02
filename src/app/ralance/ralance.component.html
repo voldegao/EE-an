@@ -1,0 +1,81 @@
+<div class="coefficient-master">
+  <div>
+    <app-Menu [menuItem]="0"></app-Menu>
+  </div>
+  <div class="containerr">
+    <div class="row" style="text-align: center;margin-bottom: 15px;">
+      <h4>Programmme de Relance</h4>
+    </div>
+    <div class="row" style="display: flex">
+        <div class="familleContainer">
+          <button  (click)="selectFamille(item.id)" [class.active]="item.id == familleD" *ngFor="let item of FamilleListe">{{item.famille}}</button>
+        </div>
+        <div class="tableContainer">
+          <a class="paroBtn" href="#/generation-commande" style="color:white;text-decoration:none"><i class="fas fa-long-arrow-alt-left"></i> Retour</a>
+          <div class="control-section" style="margin-top: 11px;">
+            <span class="loading" style="padding-top:52px;width: 70%!important;"  *ngIf='dataLoading'>
+              <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+          </span>
+            <ejs-grid #grid [dataSource]='ArticleListe' allowPaging='true'   [pageSettings]='initialPage'>
+                <e-columns>
+                    <e-column field='d' headerText='Code' width='90'  textAlign='Left'>
+                        <ng-template #template let-data>
+                            <span class="poin" *ngIf="data">{{data?.code}}</span>
+                        </ng-template>
+                    </e-column>
+                    <e-column field='lol' headerText='Désignation' width='200' textAlign='Left'>
+                         <ng-template #template let-data>
+                            <div *ngIf="data">
+                                <span id="Emptext">{{data?.designation}}</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='Freight' headerText='Classe' width='90' textAlign='Center'>
+                         <ng-template #template let-data>
+                            <div *ngIf="data">
+                                <span id="Emptext" >{{data?.classe}}</span>
+                                <!-- <span id="Emptext" *ngIf="!getDemandes(data?.id)">0</span> -->
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='cmder' headerText='Commande En Cours' width='180' textAlign='Center'>
+                        <ng-template #template let-data>
+                            <div>
+                                <span id="Emptext" *ngIf="data?.commandes_m[0]?.Sumventes">{{data?.commandes_m[0]?.Sumventes}}</span>
+                                <span id="Emptext" *ngIf="!data?.commandes_m[0]?.Sumventes">0</span>
+                                <!-- <span id="Emptext" *ngIf="!getDemandes(data?.id)">{{0 - getPrevisions(data?.id)}}</span> -->
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='vmj' headerText='VMJ' width='90' textAlign='Center'>
+                        <ng-template #template let-data>
+                            <div>
+                              <span id="Emptext" *ngIf="data?.commandes_m[0]?.Sumventes">{{vmj(data?.commandes_m[0]?.Sumventes)}}</span>
+                              <span id="Emptext" *ngIf="!data?.commandes_m[0]?.Sumventes">0</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='stock' headerText='Stock' width='90' textAlign='Center'>
+                        <ng-template #template let-data>
+                            <div>
+                              <span id="Emptext" *ngIf="data?.stocks_m[0]?.quantite">{{data?.stocks_m[0]?.quantite}}</span>
+                              <span id="Emptext" *ngIf="!data?.stocks_m[0]?.quantite">0</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='couverture' headerText='Couverture' width='120' textAlign='Center'>
+                        <ng-template #template let-data>
+                            <div>
+                              <span id="Emptext" *ngIf="data?.stocks_m[0]?.quantite">{{couverture(data?.stocks_m[0]?.quantite,data?.commandes_m[0]?.Sumventes)}}</span>
+                              <span id="Emptext" *ngIf="!data?.stocks_m[0]?.quantite">0</span>
+                            </div>                  
+                        </ng-template>
+                    </e-column>
+                </e-columns>
+            </ejs-grid>
+        
+        </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,288 @@
+.madfamille-master {
+    width: 100vw;
+    height: 100vh;
+    .containerr {
+        margin-left: 12%;
+        padding-top: 7vh;
+        width: 87%;
+    }
+    .t-big {
+        font-weight: bold;
+        color: #2e2e9c;
+    }
+    .table {
+        width: 97%;
+        margin-top: 5vh;
+    }
+    .table1 {
+        width: 100%;
+    }
+     ::-webkit-scrollbar {
+        width: 5px;
+    }
+    /* Track */
+     ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+    /* Handle */
+     ::-webkit-scrollbar-thumb {
+        background: gray;
+        border-radius: 10px;
+    }
+    /* Handle on hover */
+     ::-webkit-scrollbar-thumb:hover {
+        background: blue;
+    }
+    .drop-down {
+        width: 80%;
+        margin-top: 2vh;
+        height: 4vh;
+        /* font-size: 7vh; */
+        font-size: 10px;
+        font-weight: bold;
+        color: green;
+    }
+    .control-drop {
+        height: 4vh;
+        /* font-size: 7vh; */
+        font-size: 10px;
+        font-weight: bold;
+        color: green;
+    }
+    .button-ok {
+        margin-left: 42vw;
+        margin-top: 1vw;
+    }
+    .tre {
+        background-color: grey;
+        height: 1px;
+        width: 100%;
+    }
+    .time {
+        font-size: 13px;
+        font-weight: bold;
+        margin-left: 1vw;
+        height: 3vw;
+    }
+    .modal-filters {
+        width: 29vw;
+        font-size: 12px;
+        font-weight: bold;
+        height: 41vh;
+    }
+    .modal-graph {
+        width: 73vw;
+        margin-left: -36%;
+        border-radius: 2%;
+        /* background-color: #1e2752; */
+        margin-top: 6vw;
+    }
+
+}
+
+ejs-dialog {
+    max-height: 775px !important;
+    top: 11% !important;
+  }
+
+
+  
+.disabled-btn{
+    color: #d7cabd!important;
+}
+
+.enabled-btn{
+    color: black!important;
+}
+
+ejs-dialog {
+  max-height: 775px !important;
+  top: 7% !important;
+}
+
+.e-dialog .e-dlg-header-content + .e-dlg-content{
+    padding-top: 18px!important;
+}
+
+.button-filter{
+    font-size: 11px;
+    background-color: #033973;
+    border: none;
+}
+
+.e-headercell,.e-detailheadercell{
+    color: white;
+    background-color: #033973;
+}
+
+.e-dialog .e-dlg-header-content{
+    padding: 10px 19px;
+    background-color: #033973;
+}
+.e-dialog .e-dlg-header{
+    color: white;
+}
+.e-dialog .e-dlg-header-content .e-btn.e-dlg-closeicon-btn{
+    background-color:white
+}
+
+.filterForm{
+    width:100%;
+
+    tr td{
+        width:50%;
+        padding: 4px 0px;
+    }
+}
+
+.filterValider{
+    border: none;
+    background-color: #033973;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 5px;
+}
+
+.select-nput{
+    width: 100%;
+    height: 28px;
+}
+
+.menu-a{
+    border-radius: 50px;
+    background-color: #098c83;
+}
+
+.sub-a{
+    border-radius: 7px;
+    padding: 4px;
+    background-color: #098c83;
+}
+
+.calcul{
+    background-color: #033973;
+    color: white;
+    td{
+        padding: 7px 10px;
+    }
+}
+
+.met td{
+    border:1px solid #d8d8d8;
+    padding: 7px 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#control-container {
+    padding: 0px !important;
+}
+
+#dashed-chartcontainer_Series_1,
+#dashed-chartcontainer_Series_2,
+#dashed-chartcontainer_Series_3,
+#dashed-chartcontainer_Series_0 {
+    stroke-dasharray: 10px 10px!important;
+    stroke-linejoin: round!important;
+    stroke-linecap: round!important;
+    -webkit-animation: dash 1s linear infinite!important;
+    animation: dash 1s linear infinite!important;
+}
+
+#dashed-chartcontainer_Series_0_Point_3_Symbol {
+    -webkit-animation: opac 1s ease-out infinite;
+    animation: opac 1s ease-out infinite;
+}
+
+@-webkit-keyframes dash {
+    100% {
+        stroke-dashoffset: -20px;
+    }
+}
+
+@keyframes dash {
+    100% {
+        stroke-dashoffset: -20px;
+    }
+}
+
+@keyframes opac {
+    0% {
+        stroke-opacity: 1;
+        stroke-width: 0px;
+    }
+    100% {
+        stroke-opacity: 0;
+        stroke-width: 10px;
+    }
+}
+
+.button-f{
+    border: none;
+    background-color: #033973;
+    color: white;
+    margin-left: 3px;
+    margin-bottom: 4px;
+    font-size: 14px;
+    padding: 3px 15px;
+    border-radius: 4px;
+    height: 25px;
+
+}
+
+.familleSpan{
+    background-color: bisque;
+    padding: 4px 20px;
+    border-radius: 49px;
+    cursor: pointer;
+}
+.familleSpangreen{
+    background-color: #c4ffcf;
+    padding: 4px 20px;
+    border-radius: 49px;
+    cursor: pointer;
+}
+
+.selectedMethode{
+    background-color: #caf9bc;
+}
+
+.selectMethode{
+    background-color: #4bf519;
+    padding: 4px 20px;
+    border-radius: 49px;
+    cursor: pointer;
+}
+
+.selecetedValue{
+    background-color: #1bc86b;
+    padding: 5px 20px;
+    border-radius: 38px;
+    color: white;
+    cursor: pointer;
+}
+
+
+.loading{
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding-top: 7%;
+    background-color: white;
+    opacity: 0.8;
+    color: #033973;
+    font-size: 15px;
+    font-weight: bold;
+}

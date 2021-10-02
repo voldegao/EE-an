@@ -1,0 +1,221 @@
+<div class="coefficient-master">
+  <div>
+    <app-Menu [menuItem]="0"></app-Menu>
+  </div>
+  <div class="containerr">
+    <div class="row" style="text-align: center;margin-bottom: 15px;">
+      <h4>Interfaçage</h4>
+    </div>
+    <div style="display: flex;">
+      <ul class="partlist">
+        <li>
+          <span>
+            Familles
+            
+           </span>
+          <div>
+            <span>
+              <button (click)="getFamilles()" class="loadBtn">
+                <i *ngIf="familleLoading" class="fas fa-spinner fa-spin"></i><i *ngIf="!familleLoading" class="fas fa-database"></i> Get
+              </button>
+            </span>
+            <span>
+              <button class="loadBtn"><i class="fas fa-exchange-alt"></i> Post</button>
+            </span>
+          </div>
+        </li>
+        <li>
+          <span>
+            Zones
+            
+           </span>
+          <div>
+            <span>
+              <button (click)="getZones()" class="loadBtn">
+                <i *ngIf="zoneLoading" class="fas fa-spinner fa-spin"></i>
+                <i  *ngIf="!zoneLoading" class="fas fa-database"></i> 
+                Get</button>
+            </span>
+            <span>
+              <button class="loadBtn"><i class="fas fa-exchange-alt"></i>
+                 Post</button>
+            </span>
+          </div>
+        </li>
+        <li>
+          <span>
+            Articles
+            
+           </span>
+          <div>
+            <span>
+              <button (click)="getArticles()" class="loadBtn">
+                <i *ngIf="articleLoading" class="fas fa-spinner fa-spin"></i>
+                <i  *ngIf="!articleLoading" class="fas fa-database"></i> 
+                Get</button>
+            </span>
+            <span>
+              <button class="loadBtn"><i class="fas fa-exchange-alt"></i>
+                 Post</button>
+            </span>
+          </div>
+        </li>
+        <li>
+          <span>
+            Ventes
+            
+           </span>
+          <div>
+            <span>
+              <button (click)="getVentes()" class="loadBtn">
+                <i *ngIf="venteLoading" class="fas fa-spinner fa-spin"></i>
+                <i  *ngIf="!venteLoading" class="fas fa-database"></i> 
+                Get</button>
+            </span>
+            <span>
+              <button class="loadBtn"><i class="fas fa-exchange-alt"></i>
+                 Post</button>
+            </span>
+          </div>
+        </li>
+        <li>
+          <span>
+            Commandes Planifiées
+            
+           </span>
+          <div>
+            <span>
+              <button (click)="getCmds()" class="loadBtn">
+                <i *ngIf="cmdLoading" class="fas fa-spinner fa-spin"></i>
+                <i  *ngIf="!cmdLoading" class="fas fa-database"></i> 
+                Get</button>
+            </span>
+            <span>
+              <button class="loadBtn"><i class="fas fa-exchange-alt"></i>
+                 Post</button>
+            </span>
+          </div>
+        </li>
+        <li>
+          <span>
+            Achats
+            
+           </span>
+          <div>
+            <span>
+              <button (click)="getAchats()" class="loadBtn">
+                <i *ngIf="achatLoading" class="fas fa-spinner fa-spin"></i>
+                <i  *ngIf="!achatLoading" class="fas fa-database"></i> 
+                Get</button>
+            </span>
+            <span>
+              <button class="loadBtn"><i class="fas fa-exchange-alt"></i>
+                 Post</button>
+            </span>
+          </div>
+        </li>
+        <li>
+          <span>
+            Achats Planifiées
+            
+           </span>
+          <div>
+            <span>
+              <button (click)="getAchatsplan()" class="loadBtn">
+                <i *ngIf="achatplanLoading" class="fas fa-spinner fa-spin"></i>
+                <i  *ngIf="!achatplanLoading" class="fas fa-database"></i> 
+                Get</button>
+            </span>
+            <span>
+              <button class="loadBtn"><i class="fas fa-exchange-alt"></i>
+                 Post</button>
+            </span>
+          </div>
+        </li>
+        <li>Stocks</li>
+      </ul>
+      <div  class="res">
+        <table *ngIf="familles.length>0">
+          <tr>
+            <td style="font-weight: bold;">Familles : </td>
+          </tr>
+          <tr class="headr">
+            <td style="font-weight: bold;">ARTCOLLECTION</td>
+          </tr>
+          <tr  *ngFor="let item of familles">
+            <td>{{item?.ARTCOLLECTION}}</td>
+          </tr>
+        </table>
+        <table *ngIf="zones.length>0">
+          <tr>
+            <td style="font-weight: bold;">Zones : </td>
+          </tr>
+          <tr class="headr">
+            <td style="font-weight: bold;">CLIVILLE</td>
+          </tr>
+          <tr  *ngFor="let item of zones">
+            <td>{{item?.CLIVILLE}}</td>
+          </tr>
+        </table>
+        <table *ngIf="articles.length>0">
+          <tr>
+            <td style="font-weight: bold;" colspan="4">Articles : </td>
+          </tr>
+          <tr class="headr">
+            <td style="font-weight: bold;">ARTID</td>
+            <td style="font-weight: bold;">ARTCODE</td>
+            <td style="font-weight: bold;">ARTDESIGNATION</td>
+            <td style="font-weight: bold;">ARTCOLLECTION</td>
+          </tr>
+          <tr  *ngFor="let item of articles">
+            <td>{{item?.ARTID}}</td>
+            <td>{{item?.ARTCODE}}</td>
+            <td>{{item?.ARTDESIGNATION}}</td>
+            <td>{{item?.ARTCOLLECTION}}</td>
+          </tr>
+        </table>
+
+        <table *ngIf="ventes.length>0">
+          <tr>
+            <td style="font-weight: bold;" colspan="4">Ventes : </td>
+          </tr>
+          <tr class="headr">
+            <td style="font-weight: bold;">PLVID</td>
+            <td style="font-weight: bold;">PCVNUM</td>
+            <td style="font-weight: bold;">ARTID</td>
+            <td style="font-weight: bold;">PLVDATE</td>
+            <td style="font-weight: bold;">PLVQTE</td>
+          </tr>
+          <tr  *ngFor="let item of ventes">
+            <td>{{item?.PLVID}}</td>
+            <td>{{item?.PCVNUM}}</td>
+            <td>{{item?.ARTID}}</td>
+            <td>{{item?.PLVDATE}}</td>
+            <td>{{item?.PLVQTE}}</td>
+          </tr>
+        </table>
+
+        <table *ngIf="cmds.length>0">
+          <tr>
+            <td style="font-weight: bold;" colspan="4">Commandes Planifiées : </td>
+          </tr>
+          <tr class="headr">
+            <td style="font-weight: bold;">PLVID</td>
+            <td style="font-weight: bold;">PCVNUM</td>
+            <td style="font-weight: bold;">ARTID</td>
+            <td style="font-weight: bold;">PLVDATE</td>
+            <td style="font-weight: bold;">PLVQTE</td>
+          </tr>
+          <tr  *ngFor="let item of cmds">
+            <td>{{item?.PLVID}}</td>
+            <td>{{item?.PCVNUM}}</td>
+            <td>{{item?.ARTID}}</td>
+            <td>{{item?.PLVDATE}}</td>
+            <td>{{item?.PLVQTE}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  
+  </div>
+</div>

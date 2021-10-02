@@ -1,0 +1,16 @@
+.disabled-btn{
+	color: #d7cabd!important;
+}
+
+.enabled-btn{
+	color: black!important;
+}
+
+ejs-dialog {
+  max-height: 775px !important;
+  top: 11% !important;
+}
+
+.e-dialog .e-dlg-header-content + .e-dlg-content{
+	padding-top: 18px!important;
+}

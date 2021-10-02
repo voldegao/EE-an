@@ -1,0 +1,458 @@
+<div class="coefficient-master">
+    <!-- menu start -->
+    <div>
+        
+        <app-Menu [menuItem]="0"></app-Menu>
+    </div>
+    <!-- menu end -->
+    <div class="containerr">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="bread">
+                    <li>Dashboard</li>
+                    <li>Demand Management</li>
+                    <li class="selected">Coefficient de Variation</li>
+                </ul>
+                <div class="big-titre" style="text-align: center;">Coefficient de variation</div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-5 center-v-l">
+                <button class="btn btn-primary button-filter " (click)="FilterBtn()">
+                  <i class="fas fa-filter"></i> Filter</button>
+                <div class="filterDate">
+                    <!-- <span>Date debut</span>
+                    <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')">
+                    <span>Date Fin:</span>
+                    <input type="date"> -->
+                    {{dateDebut}} - {{dateFin}}
+                </div>
+            </div>
+        </div>
+        
+        <div class="control-section" style="margin-top:5px;padding-bottom: 50px;">
+            <span class="loading" style="padding-top: 6.5%;margin-left: -8%;"  *ngIf='dataLoading'>
+                <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+            </span>
+            <ejs-grid #grid [dataSource]='dataGlobal' allowPaging='true' allowSorting='true' [pageSettings]='initialPage' [toolbar]='toolbar'>
+                <!-- <ng-template #detailTemplate let-data>
+                    <dir>
+                        <table>
+                            <tr *ngFor="let item of zoni(data.commande_zone,data.commande_zd)" style="color: #a5a5a5;">
+                                <td  style="width:112px">{{data.code}}</td>
+                                <td style="width:300px">{{data.designation}}</td>
+                                <td style="text-align: center;width:156px">{{data.strategie}}</td>
+                                <td style="width:261px;text-align: center;">{{item.cv}}</td>
+                                <td style="width:93px;text-align:center">{{data.classe}}</td>
+                                <td style="width:219px;text-align:center">{{item.zone}}</td>
+                                <td style="width:80px"></td>
+                                
+                            </tr>
+                        </table>
+                    </dir>
+                </ng-template> -->
+                <e-columns>
+                    <e-column field='code' headerText='Code' width='90'></e-column>
+                    <e-column field='designation' headerText='Désignation' width='200'></e-column>
+                    <e-column field='strategie' headerText='Stratégie' width='120' textAlign='Center'>
+                        <ng-template #template let-data>
+                            <div>
+                                <select #t class="classeSelector" [value]="data.strategie" style="width: 40px;" (change)="changeStrat(data.id,t.value)">
+
+                                    <option value="MTS">MTS</option>
+                                    <option value="MTO">MTO</option>
+                                </select>
+                            </div>
+                        </ng-template>
+                    </e-column>
+                    <e-column field='cv' headerText='Coefficient de variation' width='150'  textAlign='Center'></e-column>
+                    <e-column field='classe' headerText='Classe' width='80' textAlign='Center'>
+                        <ng-template #template let-data>
+                            <div>
+                                <select class="classeSelector" #c [value]="data.classe"  (change)="changeClasse(data.id,c.value)">
+
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                </select>
+                            </div>
+                        </ng-template>
+                    </e-column>
+                    <e-column field='zone' headerText='Zone' width='120' textAlign='Center'>
+                        <ng-template #template let-data>
+                            <div>
+                                <span id="Emptext">*</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='ShipCountry' headerText='Evolutions' width='80' textAlign='Center'>
+                        <ng-template #template let-data>
+                            <!-- <ion-icon name="menu" (click)="onOpenDialogVente($event,data.code)"></ion-icon> -->
+                            <ion-icon name="bar-chart" (click)="onOpenDialog($event,data.code)"></ion-icon>
+                        </ng-template>
+                    </e-column>
+                </e-columns>
+            </ejs-grid>
+            
+        
+        </div>
+        <div class="modal fade" id="modal-filters" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content modal-filters">
+                    <!--<div class="modal-header" style="height: 29px;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn btn-danger" style="    height: 28px;   width: 32px;">X</button>
+            </button>
+    </div>--->
+                    <div class="modal-body-div">
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                            Code
+                        </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div>is equal to</div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div class="form-group center-v drop-down">
+                                    <select class="form-control control-drop">
+                            <option selected>Choose...</option>
+                            <option>...</option>
+                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                          Famille
+                      </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div>is equal to</div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div class="form-group center-v drop-down">
+                                    <select class="form-control control-drop">
+                          <option selected>Choose...</option>
+                          <option>...</option>
+                      </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tre"></div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                        Date
+                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 center-v first-row">
+                                <input type="date" style="font-size: 12px;">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="defaultCheck1">
+                      Date fin
+                  </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 center-v first-row">
+                                <input type="date" style="    font-size: 12px;                                ">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="tre"></div>
+                        <br>
+
+
+
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                        Client
+                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div>is equal to</div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div class="form-group center-v drop-down">
+                                    <select class="form-control control-drop">
+                        <option selected>Choose...</option>
+                        <option>...</option>
+                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                      Groupe
+                  </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div>is equal to</div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div class="form-group center-v drop-down">
+                                    <select class="form-control control-drop">
+                      <option selected>Choose...</option>
+                      <option>...</option>
+                  </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-1 center-v-l first-row">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                    Zone
+                </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div>is equal to</div>
+                            </div>
+                            <div class="col-md-4 center-v first-row">
+                                <div class="form-group center-v drop-down">
+                                    <select class="form-control control-drop">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tre"></div>
+                        <div class="row">
+                            <div class="col-md-4 center-v first-row">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" style="margin-left: -14px;">
+                                    <label class="form-check-label" for="inlineRadio1" style="font-size: 14px;font-weight: bold;">MTS</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                    <label class=" form-check-label " for="inlineRadio2 " style="font-size: 14px;font-weight: bold; ">MTO</label>
+                                </div>
+                            </div>
+                            <div class="col "></div>
+                        </div>
+                        <div class="col-md-4 center-v first-row ">
+
+                        </div>
+                        <div class="tre"></div>
+                        <BR>
+                        <div class="row">
+
+                            <div class="col-md-4 center-v ">
+                                <button type="button " class="btn btn-success button-ok">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="modal fade " id="modal-graph" tabindex="-1 " role="dialog " aria-labelledby="exampleModalLongTitle " aria-hidden="true ">
+            <div class="modal-dialog " role="document ">
+                <div class="modal-content modal-graph">
+                    <div class="modal-body " style=" height: 36vw;">
+                        <div class="row graph-r">
+
+                            <div class="col">Code&nbsp;:&nbsp; A</div>
+                        </div>
+                        <div class="row graph-r">
+                            <div class="col">Type&nbsp;:&nbsp; MTS</div>
+                        </div>
+                        <div class="row graph-r">
+
+                            <div class="col">Zone&nbsp;:&nbsp; 1</div>
+                        </div>
+                        <div class="row ">
+
+                            <!-- Graph -->
+                            <div id="test" style="margin-top: -17vh;">
+                                <img src="../../assets/icon/graph.jpeg" alt="" style="width: 50vw;height: 61vh;">
+                            </div>
+
+                            <div class="row btn-graph">
+                                <div class="col-md-4"><button type="button" class="btn btn-success">Success</button></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="control-section">
+   
+    <ejs-dialog #Dialog [header]='header'  [visible]='false'
+        [showCloseIcon]='showCloseIcon' [target]='target' [width]='width' [height]='height' style="max-height: none;">
+        <ng-template #content>
+            <div >
+                <span class="loading" *ngIf="dataLoadingArticle">
+                    <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+                </span>
+                <ejs-grid #grid [dataSource]='cvArticleDataDetails'>
+                    <e-columns>
+                        <e-column field='periode' headerText='Période' width='90'>
+                            <ng-template #template let-data>
+                                <span class="poin">{{data?.periode}}</span>
+                            </ng-template>
+                        </e-column>
+                        <e-column field='code' headerText='Code' width='90'>
+                            <ng-template #template let-data>
+                                <span class="poin">{{ArticleData?.code}}</span>
+                            </ng-template>
+                            
+                        </e-column>
+                        <e-column field='designation' headerText='Désignation' width='200'>
+                            <ng-template #template let-data>
+                                <span class="poin">{{ArticleData?.designation}}</span>
+                            </ng-template>
+                            
+                        </e-column>
+                        <e-column field='prevision' headerText='Prévision' width='120' textAlign='Center'>
+                            <ng-template #template let-data>
+                                <span class="poin">{{data?.prevision}}</span>
+                            </ng-template>
+                        </e-column>
+                        <e-column field='vente' headerText='Vente' width='80' textAlign='Center'>
+                            <ng-template #template let-data>
+                                <span class="poin">{{data?.demande}}</span>
+                            </ng-template>
+                        </e-column>
+                        <e-column field='ecart' headerText='Ecart' width='120' textAlign='Center'>
+                            <ng-template #template let-data>
+                                <span class="poin">{{ data?.demande - data?.prevision}}</span>
+                            </ng-template>
+                        </e-column>
+                    </e-columns>
+                </ejs-grid>
+                <ejs-chart #chart id="chart-container" [primaryXAxis]='primaryXAxis' [tooltip]='tooltip' width='1180' height='300'>
+                    <e-series-collection>
+                        <e-series [dataSource]='chartData2' type='Line' xName='month' yName='cv' name='Coefficient de Variation' [marker]='marker'></e-series>
+                    </e-series-collection>
+                </ejs-chart>
+        </div>
+        </ng-template>
+    </ejs-dialog>
+</div>
+
+<div class="control-section">
+    <ejs-dialog style="left: 38%!important;" #Filterdialog [header]='headerFilter'  [visible]='false'
+        [showCloseIcon]='showCloseIconFilter' [target]='target' [width]='widthFilter' [height]='heightFilter' style="max-height: none;">
+        <ng-template #content>
+            <div >
+            <table class="filterForm">
+                <tr>
+                    <td>Code </td>
+                    <td><input type="text" [(ngModel)]="codeFilter"></td>
+                </tr>
+                <tr>
+                    <td>Famille</td>
+                    <td>
+                        <select class="select-nput" [(ngModel)]="familleFilter">
+                            <option value=""></option>
+                            <option [value]="item?.famille" *ngFor="let item of familles">{{item?.famille}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Article</td>
+                    <td><input type="text"  [(ngModel)]="articleFilter"></td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Date Début</td>
+                    <td><input type="date" [(ngModel)]="datedFilter" style="width:100%"></td>
+                </tr>
+                <tr>
+                    <td>Date Fin</td>
+                    <td><input type="date" [(ngModel)]="datefFilter" style="width:100%"></td>
+                </tr>
+                 <tr>
+                    <td>Client</td>
+                    <td>
+                        <select class="select-nput" [(ngModel)]="clientFilter">
+                            <option value=""></option>
+                            <option [value]="item?.designation" *ngFor='let item of clients'>{{item?.designation}}</option>
+                        </select>
+                    </td>
+                </tr>
+                 <tr>
+                    <td>Classe</td>
+                    <td><input type="text"  [(ngModel)]="classeFilter"></td>
+                </tr>
+                 <tr>
+                    <td>Zone</td>
+                    <td>
+                        <select class="select-nput" [(ngModel)]="zoneFilter">
+                            <option value=""></option>
+                            <option [value]="item?.zone" *ngFor="let item of zones">{{item?.zone}}</option>
+                        </select>
+                    </td>
+                </tr>
+                 <tr>
+                    <td>Stratégie</td>
+                    <td>
+                        <select class="select-nput" [(ngModel)]="stratFilter">
+                            <option value=""></option>
+                            <option value="MTS">MTS</option>
+                            <option value="MTO">MTO</option>
+                        </select>
+                    </td>
+                </tr>
+                 <tr>
+                    <td></td>
+                    <td style="text-align:right;"><button class="filterValider" (click)="filter()">Valider</button></td>
+                </tr>
+            </table>
+            </div>
+        </ng-template>
+    </ejs-dialog>
+
+    <ejs-toast #element [position]='position' ></ejs-toast>
+
+</div>

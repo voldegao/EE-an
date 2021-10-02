@@ -1,0 +1,88 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';  
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';  
+@import '../node_modules/@syncfusion/ej2-calendars/styles/material.css';  
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';  
+@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';  
+@import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';  
+@import '../node_modules/@syncfusion/ej2-angular-grids/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-angular-pivotview/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-angular-notifications/styles/material.css';
+
+
+* {
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  
+  
+  .center-v {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .center-v-l {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+  
+  .menu {
+    border-radius: 0px 50px 50px 0px;
+    position: relative;
+    height: 100vh;
+    width: 4vw;
+    float: left;
+    background-color: #033973;
+  }
+  .menu .EE-logo {
+    width: 3.5vw;
+    margin-top: 3vh;
+  }
+  .menu i {
+    color: white;
+    font-size: 1.7vw;
+    margin-top: 2.2vh;
+    margin-bottom: 2.2vh;
+    background: transparent;
+    padding: 0.7vw;
+    border-radius: 3px;
+  }
+  .menu i:hover {
+    color: white;
+    background: #4c548c;
+  }
+  
+  .menu-2 {
+    border-radius: 0px 50px 50px 0px;
+    background-color: #1559a2;
+    position: absolute;
+    margin-left: 4vw;
+    z-index: 0;
+    width: 37px;
+    height: 58vh;
+    margin-top: 23vh;
+    padding: 0.8vw;
+  }
+  .menu-2 i {
+    color: white;
+    font-size: 12px;
+    margin-top: 1.6vh;
+    margin-bottom: 2.2vh;
+    background: transparent;
+    padding: 8px;
+    border-radius: 3px;
+  }
+  .menu-2 i:hover {
+    color: white;
+    border-radius: 5px;
+    background-color: #098c83;
+  }

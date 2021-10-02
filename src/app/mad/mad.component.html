@@ -1,0 +1,28 @@
+<div id="action-description">
+    <p>Biais part here
+    </p>
+</div>
+<div class="control-section">
+    <ejs-grid #grid [dataSource]='data' allowPaging='true'  [pageSettings]='pageSettings'>
+        <e-columns>
+            <e-column field='famille.famille' headerText='Famille' width='120'></e-column>
+            <e-column field='designation' headerText='Désignation' width='160'></e-column>
+            <e-column field='strategie' headerText='MAD' width='120' textAlign='Center'>
+            	 <ng-template #template let-data>
+                    <div>
+                        <span id="Emptext">{{mad(data.commande_d,data.previsions)}}</span>
+                      </div>                  
+                </ng-template>
+            </e-column>
+            <e-column field='Freight' headerText='Tracking Signal' width='150' textAlign='Center'>
+                 <ng-template #template let-data>
+                    <div>
+                        <span id="Emptext">{{tracksignal(data.commande_d,data.previsions)}}</span>
+                      </div>                  
+                </ng-template>
+            </e-column>
+            <e-column field='ShipCountry' headerText='Actions' width='150' textAlign='Center'></e-column>
+        </e-columns>
+    </ejs-grid>
+
+</div>

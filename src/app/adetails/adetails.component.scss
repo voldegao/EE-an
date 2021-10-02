@@ -1,0 +1,213 @@
+.fdetails-master {
+    
+    height: 100vh;
+    .containerr {
+        margin-left: 10%;
+        padding-top: 6vh;
+        width: 87%;
+        height: 100%;
+    }
+    .t-big {
+        font-weight: bold;
+        color: #2e2e9c;
+    }
+    .Box-famille {
+        width: 100%;
+        overflow: auto;
+        overflow-x: hidden;
+        height: 90%;
+    }
+    .Box-graph {
+        
+        overflow: auto;
+        overflow-x: hidden;
+        
+    }
+    .total {
+        font-weight: bold;
+        color: #19198a;
+    }
+    .table {
+        overflow: auto;
+    }
+    .table1 {
+        width: 100%;
+    }
+     ::-webkit-scrollbar {
+        width: 5px;
+    }
+    /* Track */
+     ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        border-radius: 10px;
+    }
+    /* Handle */
+     ::-webkit-scrollbar-thumb {
+        background: gray;
+        border-radius: 10px;
+    }
+    /* Handle on hover */
+     ::-webkit-scrollbar-thumb:hover {
+        background: blue;
+    }
+    .drop-down {
+        width: 80%;
+        margin-top: 2vh;
+        height: 4vh;
+        /* font-size: 7vh; */
+        font-size: 10px;
+        font-weight: bold;
+        color: green;
+    }
+    .control-drop {
+        height: 4vh;
+        /* font-size: 7vh; */
+        font-size: 10px;
+        font-weight: bold;
+        color: green;
+    }
+    .time {
+        font-size: 13px;
+        font-weight: bold;
+        margin-left: 1vw;
+        height: 3vw;
+    }
+}
+
+
+.btn-fam{
+    width: 180px;
+    background-color:#103b69;
+    font-size: 13px;
+}
+.ac{
+    background-color: #7c8d9e;
+    border-color: #7c8d9e;
+    outline:none
+}
+
+.menu-a{
+    border-radius: 50px;
+    background-color: #098c83;
+}
+
+.sub-a{
+    border-radius: 7px;
+    padding: 4px;
+    background-color: #098c83;
+}
+
+.e-headercell,.e-detailheadercell{
+    color: white;
+    background-color: #033973;
+}
+
+
+.date-holder{
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+
+.button-filter{
+    font-size: 11px;
+    background-color: #033973;
+    border: none;
+    height: 26px;
+}
+
+.filterDate{
+    background-color: #033973;
+    color: white;
+    height: 20px;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 10px;
+    font-weight: bold;
+    margin-left: 1vw;
+}
+.fabtn{
+    color: white;
+    background-color: #033973;
+    padding: 4px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    margin-left: 5px;
+    text-decoration: none;
+    &:hover{
+        background-color: #034995;
+    }
+}
+
+.causebtn{
+    background-color: #033973;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.nput{
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
+    border: 1px solid #cacaca;
+    border-radius: 2px;
+}
+
+.formHolder{
+    width: 40%;
+    background-color: #ecf0f3;
+    padding: 10px 0px;
+    border-radius: 4px;
+    border: 1px solid #cccbcb;
+}
+
+.formbtn{
+    background-color: #09478c;
+    border: none;
+    margin-left: 5px;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+
+}
+
+.liflex{
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+.btnDeletev{
+    border:none;
+    color: white;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background-color: #ff4646;
+}
+.btnDeletec{
+    border:none;
+    color: white;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background-color: #286cff;
+}
+
+#conf{
+    width: 450px!important;
+    height: 150px!important;
+    max-height: 200px!important;
+}
+
+.input-search{
+    height: 32px;
+    width: 180px;
+    outline:none;
+    border:1px solid gray;
+    padding:2px 8px
+}

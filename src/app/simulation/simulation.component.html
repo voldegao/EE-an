@@ -1,0 +1,141 @@
+<div class="coefficient-master">
+  <div>
+    <app-Menu [menuItem]="0"></app-Menu>
+  </div>
+  <div class="containerr">
+    <div class="row" style="text-align: center;margin-bottom: 15px;">
+      <h4>Simulation</h4>
+    </div>
+    <div class="row" class="filterBar">
+      <div style="display: flex;align-items: center;">
+        <div *ngIf='familleFilterContainer' style="padding-left: 4px;">
+          <select class="select-filter" [(ngModel)]="familleID">
+            <option value=""></option>
+            <option [value]="item.id" *ngFor="let item of FamilleListe">{{item.famille}}</option>
+          </select>
+          <button class="paroBtn aff"  (click)="getDataWithFamille()"><i class="fas fa-check"></i> Afficher</button>
+          <button  class="paroBtn" (click)="showLeftBar()"><i class="fas fa-long-arrow-alt-left"></i> Retour</button>
+        </div>
+        <div *ngIf='articleFilterContainer'>
+          <input type="text" placeholder="Recherche ..." class="article-filter" [(ngModel)]="articleText">
+          <button class="paroBtn aff"  (click)="getDataWithFamille()"><i class="fas fa-check"></i> Afficher</button>
+          <button  class="paroBtn" (click)="showLeftBar()"><i class="fas fa-long-arrow-alt-left"></i> Retour</button>
+        </div> 
+       
+        <div *ngIf="leftBar">
+          <button class="paroBtn" (click)="showFamilleFilter()"><i class="fas fa-level-down-alt"></i> Familles <span *ngIf="familleName">(search : "{{familleName}}" )</span></button>
+          <button class="paroBtn" (click)="showArticleFilter()"><i class="fas fa-cubes"></i> Articles <span *ngIf="articleText">(search : "{{articleText}}" )</span></button>
+         
+        </div>
+       
+      </div>
+      <div>
+        <!-- <button class="paraBtn" (click)="openParams()"><i class="fas fa-cogs"></i> Paramètres</button> -->
+        <button class="paraBtn" (click)="exportCSV()"><i class="fas fa-file-csv"></i> CSV</button>
+        <!-- <button class="paraBtn" onclick="testExport()"><i class="fas fa-file-csv"></i> test</button> -->
+        <!-- <button class="paraBtn" (click)="exportas('thepivot');"><i class="fas fa-file-excel"></i> Excel</button> -->
+        <button class="paraBtn" onclick="testExport()"><i class="fas fa-file-pdf"></i> PDF</button>
+      </div>
+    </div>
+    <!-- <div class="row" style="margin-right: 20px;margin-left: 0px;">
+      <ejs-pivotview #pivotview id='PivotView'  [gridSettings]='gridSettings' [editSettings]='editS' (cellSelected)='onCellSelected($event)' height='700' width=width [dataSourceSettings]=dataSourceSettings allowExcelExport='true' allowPdfExport='true'></ejs-pivotview>
+    </div> -->
+    <div style="padding-bottom: 50px;">
+      <span class="loading" style="padding-top:52px;margin-left: -8%;"  *ngIf='dataLoading'>
+        <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+    </span>
+      <table class="pivot2" id="thepivot">
+       
+        <tr class="subheader">
+          <td style="width: 281px;">Période</td>
+          <td style="width:84px" *ngFor="let item of dateData">{{item}}</td>
+          <td style="width:200px">MAD</td>
+          <td style="width:200px">Tracking Signal</td>
+          <td style="width: 130px;">Actions</td>
+        </tr>
+        <tr *ngFor="let data of previsionData">
+          <td colspan="13" style="padding: 0px;">
+            <table style="width: 100%;" class="tabD">
+              <tr class="data">
+                <td class="title" (click)="toggleDetails(data.code)" [class.plu]="data.code!=selectedCode">
+                  <i class="fas fa-caret-right" style="margin-right: 5px;"  *ngIf="data.code!=selectedCode"></i> 
+                  <i class="fas fa-caret-down" style="margin-right: 5px;" *ngIf="data.code==selectedCode"></i>
+                  <span> {{data.article}} </span>
+                </td>
+                <td colspan="12" class="vide"></td>
+              </tr>
+              <tr class="data" *ngIf="data.code==selectedCode">
+                <td class="subtitle">Ventes</td>
+                <td style="font-weight: bold;" *ngFor="let item of filterArticle(data.code).demandes">{{item}}</td>
+                <td style="width:200px;font-weight: bold">MAD</td>
+                <td style="width:200px;font-weight: bold">Tracking Signal</td>
+                <td style="width: 130px;font-weight: bold">Actions</td>
+              </tr>
+              <tr class="data" *ngIf="data.code ==selectedCode" [class.recommanded]="bestMethode(data.code) == 'tsm'">
+                <td class="subtitle">Prévisions : Moyenne Mobile</td>
+                <td *ngFor="let item of filterArticle(data.code).prevMoy">{{item}}</td>
+                <td style="width:200px">{{mad(filterArticle(data.code).demandes,filterArticle(data.code).prevMoy)}}</td>
+                <td style="width:200px">{{tracksignal(filterArticle(data.code).demandes,filterArticle(data.code).prevMoy)}}</td>
+                <td style="width: 130px;">
+                  <button class="conf" [class.b]="data.methode == 1"  (click)="confirm(data.id,1)">
+                    <i class="fas fa-check" *ngIf="data.methode == 1"></i>
+                    Confirmer
+                  </button>
+                </td>
+              </tr>
+              <tr class="data" *ngIf="data.code ==selectedCode" [class.recommanded]="bestMethode(data.code) == 'tsl'">
+                <td class="subtitle">Prévisions : Lissage Exponentiel</td>
+                <td *ngFor="let item of filterArticle(data.code).prevLissage">{{item}}</td>
+                <td style="width:200px">{{mad(filterArticle(data.code).demandes,filterArticle(data.code).prevLissage)}}</td>
+                <td style="width:200px">{{tracksignal(filterArticle(data.code).demandes,filterArticle(data.code).prevLissage)}}</td>
+                <td style="width: 130px;">
+                  <button class="conf" [class.b]="data.methode == 2"  (click)="confirm(data.id,2)">
+                    <i class="fas fa-check" *ngIf="data.methode == 2"></i>
+                    Confirmer
+                  </button>
+                </td>
+              </tr>
+              <tr class="data" *ngIf="data.code ==selectedCode" [class.recommanded]="bestMethode(data.code) == 'tsr'">
+                <td class="subtitle">Prévisions : Régression linéaire</td>
+                <td *ngFor="let item of filterArticle(data.code).prevReg">{{item}}</td>
+                <td style="width:200px">{{mad(filterArticle(data.code).demandes,filterArticle(data.code).prevReg)}}</td>
+                <td style="width:200px">{{tracksignal(filterArticle(data.code).demandes,filterArticle(data.code).prevReg)}}</td>
+                <td style="width: 130px;">
+                  <button class="conf" [class.b]="data.methode == 3"  (click)="confirm(data.id,3)">
+                    <i class="fas fa-check" *ngIf="data.methode == 3"></i>
+                    Confirmer
+                  </button>
+                </td>
+              </tr>
+              <tr class="data" *ngIf="data.code ==selectedCode" [class.recommanded]="bestMethode(data.code) == 'tsd'">
+                <td class="subtitle">Prévisions : Décomposition</td>
+                <td *ngFor="let item of filterArticle(data.code).prevDecomp">{{item}}</td>
+                <td style="width:200px">{{mad(filterArticle(data.code).demandes,filterArticle(data.code).prevDecomp)}}</td>
+                <td style="width:200px">{{tracksignal(filterArticle(data.code).demandes,filterArticle(data.code).prevDecomp)}}</td>
+                <td style="width: 130px;">
+                  <button class="conf" [class.b]="data.methode == 4" (click)="confirm(data.id,4)">
+                    <i class="fas fa-check" *ngIf="data.methode == 4"></i>
+                    Confirmer
+                </button>
+                </td>
+              </tr>
+          
+            </table>
+          </td>
+        </tr>
+        <tr>
+            <td colspan="13" style="text-align: right;padding-top: 15px;">
+                <span class="spano">
+                  <button (click)='prevPage()' class="pagebtn">Précedent</button>
+                  <span class="pager">{{currentPage}} / {{lastPage}}</span>
+                  <button (click)="nextPage()" class="pagebtn">Suivant</button>
+                </span>
+            </td>
+
+                  
+        </tr>
+        
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,133 @@
+<div class="detection-master">
+    <!-- menu start -->
+    <div>
+        <app-Menu [menuItem]="1"></app-Menu>
+    </div>
+    <!-- menu end -->
+    <div class="containerr">
+        <div class="t-big">
+            <div class="row">
+                <div class="col-md-5">
+                    Biais <span>></span> FAMILLE
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row " style="width: 100%;display: flex;justify-content: space-between;align-items: flex-end;margin-bottom: 6px;margin-left: 0px !important;">
+            <div style="display: flex;">
+                <div class="time center-v-l" style="display: flex;align-items: flex-end;margin-left: 0px !important;">
+                    <div class="date-holder">
+                        <span>Date début:</span>
+                        <input type="date" [(ngModel)]="dateDebut">
+                    </div>
+                    <div class="date-holder">
+                        <span>Date Fin:</span>
+                        <input type="date" [(ngModel)]="dateFin">
+                    </div>
+                    <div>
+                        <button class="btn btn-primary button-filter " (click)="filter()" ><i class="fas fa-filter"></i> Filtrer</button>
+                    </div>
+                    <div class="filterDate" style="margin-bottom: 3px;">
+                        <!-- <span>Date debut</span>
+                        <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')">
+                        <span>Date Fin:</span>
+                        <input type="date"> -->
+                        Période : {{getMonths()}} Mois
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="">
+                <a href="#/biaisfamille" class="fabtn">Famille</a>
+                <a href="#/biaisarticle" class="fabtn">Articles</a>
+            </div>
+
+
+
+
+        </div>
+
+        <div class="control-section">
+            <span class="loading" style="padding-top:52px;margin-left: -8%;"  *ngIf='dataLoading'>
+                <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+            </span>
+            <ejs-grid #grid [dataSource]='data' allowPaging='true' [pageSettings]='initialPage'>
+                <e-columns>
+                    <e-column field='famille' headerText='Famille' width='120'>
+                        <ng-template #template let-data>
+                            <span (click)='showFamilleArticles(data.famille)' class="spanFamille">{{data.famille}}</span>
+                        </ng-template>
+                    </e-column>
+                    <e-column field='lol' headerText='Biais' width='120' textAlign='Center'>
+                         <ng-template #template let-data>
+                            <div *ngIf="data">
+                                <span id="Emptext">{{calculateFamilleBiais(data.commande_g,data.previsions)}}</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='Freight' headerText='% Biais' width='150' textAlign='Center'>
+                         <ng-template #template let-data>
+                            <div>
+                                <span id="Emptext">{{calculateBiaisPercent(data.commande_g,data.previsions)}}</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='zone' headerText='% Biais Positif' width='150' textAlign='Center'>
+                        <ng-template #template let-data>
+                            <div>
+                                <span id="Emptext">{{calculateBiaisPositive(data.commande_g,data.previsions)}}</span>
+                               
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                  
+                </e-columns>
+            </ejs-grid>
+        
+        </div>
+        
+
+        
+
+    </div>
+</div>
+
+
+
+
+
+                        
+
+
+<div class="control-section">
+    <ejs-dialog style="left: 13%!important;" #articlesBiais [header]='header'  [visible]='false'
+        [showCloseIcon]='showCloseIcon' [target]='target' [width]='width' [height]='height' style="max-height: none;">
+        <ng-template #content>
+            <div class="control-section">
+                <span class="loading"  *ngIf='dataLoadingArticles'>
+                    <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+                </span>
+                <ejs-grid #gridarticle [dataSource]='dataGlobal' allowPaging='true' [pageSettings]='initialPage'  allowSorting='true'  [toolbar]='toolbar'>
+                     <e-columns >
+                        <e-column field='code' headerText='Code' width='100' class="red"></e-column>
+                        <e-column field='designation' headerText='Désignation' width='220'></e-column>
+                        <e-column field='classe' headerText='Classe' width='120' textAlign='Center'></e-column>
+                        <e-column field='biais' headerText='Biais' width='120' textAlign='Center' class="ll">
+                            <ng-template #template let-data>
+                                <div class="error" *ngIf="data == null">
+                                    <span id="Emptext" class="nan">Prévisions incomplets</span>
+                                </div>                  
+                                <div *ngIf="data != null">
+                                        <span id="Emptext">{{data.biais}}</span>
+                                </div>                  
+                            </ng-template>
+                        </e-column>
+                        <e-column field='biaisPercent' headerText='% Biais' width='150' textAlign='Center'></e-column>
+                        <e-column field='biaisPositive' headerText='% Biais Positive' width='150' textAlign='Center'></e-column>
+                    </e-columns>
+                </ejs-grid>   
+            </div>
+        </ng-template>
+    </ejs-dialog>
+</div>

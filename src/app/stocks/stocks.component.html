@@ -1,0 +1,150 @@
+<div class="detection-master">
+    <!-- menu start -->
+    <div>
+        <app-Menu [menuItem]="3"></app-Menu>
+    </div>
+    <!-- menu end -->
+    <div class="containerr">
+        <div class="t-big">
+            <div class="row">
+                <div class="col-md-5">
+                    Stock de Sécurité
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row " style="width: 100%;display: flex;justify-content: space-between;align-items: flex-end;margin-bottom: 6px;margin-left: 0px !important;">
+            <div style="display: flex;">
+                <div class="time center-v-l" style="display: flex;align-items: flex-end;margin-left: 0px !important;">
+                    <div class="date-holder">
+                        <span>Date début:</span>
+                        <input type="date" [(ngModel)]="dateDebut">
+                    </div>
+                    <div class="date-holder">
+                        <span>Date Fin:</span>
+                        <input type="date" [(ngModel)]="dateFin">
+                    </div>
+                    <div>
+                        <button class="btn btn-primary button-filter " (click)="filter()" ><i class="fas fa-filter"></i> Filtrer</button>
+                    </div>
+                    <div class="filterDate" style="margin-bottom: 3px;">
+                        <!-- <span>Date debut</span>
+                        <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')">
+                        <span>Date Fin:</span>
+                        <input type="date"> -->
+                        Période : {{getMonths()}} Mois
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="control-section">
+            <span class="loading" style="padding-top:52px;margin-left: -8%;"  *ngIf='dataLoading'>
+                <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+            </span>
+            <ejs-grid #grid [dataSource]='data' allowPaging='true' [pageSettings]='initialPage'>
+                <e-columns>
+                    <e-column field='famille' headerText='Famille' width='120'>
+                        <ng-template #template let-data>
+                            <span (click)='showFamilleArticles(data.famille)' class="spanFamille">{{data.famille}}</span>
+                        </ng-template>
+                    </e-column>
+                    <e-column field='lol' headerText='Taux de Service' width='120' textAlign='Center'>
+                         <ng-template #template let-data>
+                            <div *ngIf="data">
+                                <span id="Emptext">{{taux(data.tauxsecurite_id)}}</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='Freight' headerText='MAD' width='150' textAlign='Center'>
+                         <ng-template #template let-data>
+                            <div>
+                                <span id="Emptext">{{mad2(data.commande_g,data.previsions)}}</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='zone' headerText='Stock de Sécurité' width='150' textAlign='Center'>
+                        <ng-template #template let-data>
+                            <div>
+                                <span id="Emptext">{{stockSecurity(data.commande_g,data.previsions,data.tauxsecurite_id)}}</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='zoned' headerText='Publication' width='150' textAlign='Center'>
+                        <ng-template #template let-data>
+                            <div>
+                                <span id="Emptext" (click)="getdataforPublication(data.id)">Publier</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                </e-columns>
+            </ejs-grid>
+        
+        </div>
+        
+
+        
+
+    </div>
+</div>
+
+
+
+
+
+                        
+
+
+<div class="control-section">
+    <ejs-dialog style="left: 13%!important;" #articlesBiais [header]='header'  [visible]='false'
+        [showCloseIcon]='showCloseIcon' [target]='target' [width]='width' [height]='height' style="max-height: none;">
+        <ng-template #content>
+            <div class="control-section">
+                <span class="loading"  *ngIf='dataLoadingArticle' style="height: 400px!important;">
+                    <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+                </span>
+                            <ejs-grid #gridarticled [dataSource]='dataGlobal' allowPaging='true' [pageSettings]='initialPage' allowSorting='true'  [toolbar]='toolbar'>
+                                <e-columns>
+                                    <e-column field='code' headerText='Code' width='90'></e-column>
+                                    <e-column field='designation' headerText='Désignation' width='280'></e-column>
+                                    <e-column field='classe' headerText='Classe' width='100' textAlign='Center'></e-column>
+                                    <e-column field='taux' headerText='% Taux Service' width='110' textAlign='Center'>
+                                    </e-column>
+                                    <e-column field='mad' headerText='MAD' width='110' textAlign='Center'>
+                                    </e-column>
+                                    <e-column field='stock' headerText='Stock de Sécurité' width='110' textAlign='Center'>
+                                    </e-column>
+                                    <e-column field='ShipCountry' headerText='Actions' width='110' textAlign='Center'>
+                                        <ng-template #template let-data>
+                                            <ion-icon name="bar-chart" (click)="showgraphArticle(data.code)"></ion-icon>
+                                        </ng-template>
+                                    </e-column>
+                                </e-columns>
+                            </ejs-grid>
+                          
+                        
+                        </div>
+        </ng-template>
+    </ejs-dialog>
+</div>
+
+
+<div class="control-section">
+    <ejs-dialog style="left: 13%!important;" #articlesBiaisgraph [header]='headerg'  [visible]='false'
+        [showCloseIcon]='showCloseIcon' [target]='target' [width]='width' [height]='height' style="max-height: none;">
+        <ng-template #content>
+            <div class="control-section">
+                 <ejs-chart #chartm id="chart-container" [primaryXAxis]='primaryXAxis' [tooltip]='tooltip' width='1255' height='400'>
+                    <e-series-collection>
+                        <e-series [dataSource]='chartData' width="2" type='Column' xName='month' yName='stock' name='Stock'></e-series>
+                        <e-series [dataSource]='chartDatalol' width="4" type='StepLine' xName='month' yName='stocksecurity' name='Stock Sécurité'></e-series>
+                    </e-series-collection>
+                </ejs-chart>        
+                        
+            </div>
+        </ng-template>
+    </ejs-dialog>
+</div>

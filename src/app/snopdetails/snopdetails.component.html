@@ -1,0 +1,195 @@
+<div class="coefficient-master">
+  <div>
+    <app-Menu [menuItem]="10"></app-Menu>
+  </div>
+  <div class="containerr">
+    <div class="row" style="text-align: center;margin-bottom: 15px;">
+      <h4>Plan de Demande Global Details</h4>
+    </div>
+    <div class="row" class="filterBar">
+      <div style="display: flex;align-items: center;width: 100%;justify-content: space-between;">
+        <div *ngIf='familleFilterContainer' style="padding-left: 4px;">
+          <select class="select-filter" [(ngModel)]="familleID">
+            <option value=""></option>
+            <option [value]="item.id" *ngFor="let item of FamilleListe">{{item.famille}}</option>
+          </select>
+          <button class="paroBtn aff" (click)="getDataWithFamille()"><i class="fas fa-check"></i> Afficher</button>
+          <button class="paroBtn" (click)="showLeftBar()"><i class="fas fa-long-arrow-alt-left"></i> Retour</button>
+        </div>
+        <div *ngIf='articleFilterContainer'>
+          <input type="text" placeholder="Recherche ..." class="article-filter" [(ngModel)]="articleText">
+          <button class="paroBtn aff" (click)="showArticleList()"><i class="fas fa-check"></i> Afficher</button>
+          <button class="paroBtn" (click)="showLeftBar()"><i class="fas fa-long-arrow-alt-left"></i> Retour</button>
+        </div>
+
+        <div *ngIf="leftBar">
+          <button class="paroBtn" (click)="showFamilleFilter()"><i class="fas fa-level-down-alt"></i> Familles <span
+              *ngIf="familleName">(search : "{{familleName}}" )</span></button>
+          <button class="paroBtn" (click)="openGraph()"><i class="fas fa-chart-line"></i> Graphique</button>
+          <button class="paroBtn" (click)="openPrevision()"><i class="fas fa-table"></i> Cause</button>
+          <a class="paroBtn" href="#/snop" style="color:black;text-decoration: none;"><i class="fas fa-database"></i> S&OP</a>
+        </div>
+        <div>
+          <button class="paraBtn"><i class="fas fa-dollar-sign"></i> Valeur</button>
+          <button class="paraBtn"><i class="fas fa-sort-numeric-up-alt"></i> Volume</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="row" style="margin-right: 20px;margin-left: 0px;">
+      <span class="loading" style="padding-top:52px;margin-left: -8%;"  *ngIf='dataLoading'>
+        <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+      </span>
+      <table class="table-snop">
+        <tr class="header">
+          <td class="title">{{FamilleData[0]?.famille}} </td>
+          <td *ngFor="let item of getDateRange().dateRange" style="width: 90px;">{{item}}</td>
+        </tr>
+        <tr class="subheader">
+          <td class="sub">Prévision de la demande</td>
+          <td colspan="12"></td>
+        </tr>
+        <tr>
+          <td class="subtitle">Prévision</td>
+          <td *ngFor="let item of previsionsData" style="width: 90px;" class="d">{{item}}</td>
+        </tr>
+        <tr>
+          <td class="subtitle">Réalisation</td>
+          <td *ngFor="let item of realisationData" style="width: 90px;" class="d">{{item}}</td>
+        </tr>
+        <tr>
+          <td class="subtitle">Ecart</td>
+          <td *ngFor="let item of ecartData" style="width: 90px;" class="d">{{item}}</td>
+        </tr>
+        <tr>
+          <td class="subtitle">Ecart Cumulé</td>
+          <td *ngFor="let item of ecartcumuleData" style="width: 90px;" class="d">{{item}}</td>
+        </tr>
+
+        <tr class="subheader">
+          <td class="sub">Approvisionnement</td>
+          <td colspan="12"></td>
+        </tr>
+        <tr>
+          <td class="subtitle">Planification</td>
+          <td *ngFor="let item of orderplanData" style="width: 90px;" class="d">{{item}}</td>
+        </tr>
+        <tr>
+          <td class="subtitle">Réalisation</td>
+          <td *ngFor="let item of orderData" style="width: 90px;" class="d">{{item}}</td>
+        </tr>
+        <tr>
+          <td class="subtitle">Ecart</td>
+          <td *ngFor="let item of ecartOrderData" style="width: 90px;" class="d">{{item}}</td>
+        </tr>
+        <tr>
+          <td class="subtitle">Ecart Cumulé</td>
+          <td *ngFor="let item of ecartOrdercumuleData" style="width: 90px;" class="d">{{item}}</td>
+        </tr>
+        <tr class="subheader">
+          <td class="sub">Stock</td>
+          <td colspan="12"></td>
+        </tr>
+        <tr>
+          <td class="subtitle">Planification</td>
+          <td *ngFor="let item of stockDatacalcul" style="width: 90px;" class="d">{{item}}</td>
+        </tr>
+        <tr>
+          <td class="subtitle">Réalisation</td>
+          <td *ngFor="let item of stockRealise" style="width: 90px;" class="d">{{item}}</td>
+        </tr>
+        <tr>
+          <td class="subtitle">Ecart</td>
+          <td *ngFor="let item of ecartStock" style="width: 90px;" class="d">{{item}}</td>
+        </tr>
+        <tr>
+          <td class="subtitle">Ecart Cumulé</td>
+          <td *ngFor="let item of ecartcumuleStock" style="width: 90px;" class="d">{{item}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- chart -->
+<div class="control-section">
+           
+  <!-- Render Button to open the Dialog -->        
+    <ejs-dialog #Dialog id="dialog" [header]='header'  [visible]='false'
+        [showCloseIcon]='showCloseIcon' [target]='target' [width]='width' [height]='height' style="max-height: none;left:14%">
+        <ng-template #content>
+            <div>
+                <ejs-chart #chart  style='display:block'  [primaryXAxis]='primaryXAxis' [tooltip]='tooltip' width='1150' height='400'>
+                    <e-series-collection>
+                    
+                      <e-series [dataSource]='chartData1' type='Column'  width=2 xName='month' yName='prevision' name='Prévision' [marker]='marker'></e-series>
+                      <e-series [dataSource]='chartData2' type='Column'  width=2 xName='month' yName='planification' name='Approvisionnement' [marker]='marker'></e-series>
+                      <e-series [dataSource]='chartData3' type='Line'  width=2 xName='month' yName='stock' name='Stock' [marker]='marker'></e-series>
+                    </e-series-collection>
+                </ejs-chart>
+            </div>
+        </ng-template>
+    </ejs-dialog>
+</div>
+
+<div class="control-section">
+           
+  <!-- Render Button to open the Dialog -->        
+    <ejs-dialog #Dialogv id="dialogv" [header]='headerv'  [visible]='false'
+        [showCloseIcon]='showCloseIconv' [target]='targetv' [width]='widthv' [height]='heightv' style="max-height: none;left: 11%!important;">
+        <ng-template #content>
+            <div>
+              <table style="width: 100%;">
+                <tr class="headertable">
+                  <td>Code</td>
+                  <td>Designation</td>
+                  <td>Prévision</td>
+                  <td>Valeur Corrigé</td>
+                  <td style="width: 400px;">Cause</td>
+                  <td style="width: 60px;">Action</td>
+                </tr>
+                <tr class="datatable" *ngFor="let item of articlesData;index as i">
+                  <td>{{item.code}}</td>
+                  <td>{{item.designation}}</td>
+                  <td>
+                    <span *ngIf="item?.previsions[0]?.prevision_old != null">{{item?.previsions[0]?.prevision_old}}</span>
+                    <span *ngIf="item?.previsions[0]?.prevision_old == null">{{item?.previsions[0]?.prevision}}</span>
+                  </td>
+                  <td>
+                    <span *ngIf="selectedline != i">
+                      <span *ngIf="item?.previsionlog[0]?.valeur">{{item?.previsionlog[0]?.valeur}}</span>
+                      <span *ngIf="!item?.previsionlog[0]?.valeur">*</span>
+                    </span>
+                    <span *ngIf="selectedline == i">
+                      <input type="number" style="width: 90px" class="nputForm" [(ngModel)]='qte'> 
+                    </span>
+                  </td>
+                  <td>
+                    <span *ngIf="selectedline != i">{{item?.previsionlog[0]?.cause}}</span>
+                    <span *ngIf="selectedline == i"><input type="text" style="width: 100%;" class="nputForm" [(ngModel)]='cause'></span>
+                  </td>
+                  <td style="text-align:rigth">
+                    <button *ngIf="selectedline != i" (click)='selectedline = i' class="editbtn">Modifier</button>
+                    <span *ngIf="selectedline == i" style="display: flex;">
+                      <button (click)='selectedline = null' class="annulerbtn">Annuler</button>
+                      <button (click)='publier(item,i)' class="publierbtn" style="margin-left: 5px;">Publier</button>
+                    </span>
+                    
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6" style="text-align: right;padding-top: 15px;">
+                    <span>
+                      <button (click)='prevPage()' class="pagebtn">Précedent</button>
+                      <span class="pager">{{currentPage}} / {{lastPage}}</span>
+                      <button (click)="nextPage()" class="pagebtn">Suivant</button>
+                    </span>
+                  </td>
+
+                  
+                </tr>
+              </table>
+            </div>
+        </ng-template>
+    </ejs-dialog>
+</div>

@@ -1,0 +1,296 @@
+<div class="madfamille-master">
+    <!-- menu start -->
+    <div>
+        <app-Menu [menuItem]="2"></app-Menu>
+    </div>
+    <!-- menu end -->
+    <div class="containerr">
+        <div class="t-big">
+            <div class="row">
+
+
+                <div class="col-md-5">
+                    MAD <span>></span> FAMILLE
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row " style="width: 100%;display: flex;justify-content: space-between;align-items: flex-end;margin-bottom: 6px;margin-left: 0px !important;">
+            <div style="display: flex;">
+                <div class="time center-v-l" style="display: flex;align-items: flex-end;margin-left: 0px !important;">
+                    <div class="date-holder">
+                        <span>Date début:</span>
+                        <input type="date" [(ngModel)]="dateDebutq">
+                    </div>
+                    <div class="date-holder">
+                        <span>Date Fin:</span>
+                        <input type="date" [(ngModel)]="dateFinq">
+                    </div>
+                    <div>
+                        <button class="btn btn-primary button-filter " (click)="filter()" ><i class="fas fa-filter"></i> Filtrer</button>
+                    </div>
+                    <div class="filterDate" style="margin-bottom: 3px;">
+                        <!-- <span>Date debut</span>
+                        <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')">
+                        <span>Date Fin:</span>
+                        <input type="date"> -->
+                        Période : {{getMonths()}} Mois
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        
+        
+        <!-- table mad by famille -->
+        
+        <div class="control-section">
+            <span class="loading" style="padding-top: 52px;margin-left: -8%;"  *ngIf='dataLoading'>
+                <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+            </span>
+            <ejs-grid #grid [dataSource]='dataFamille' allowPaging='true' [pageSettings]='initialPage'>
+                <e-columns>
+                    <e-column field='famille' headerText='Famille' width='120'>
+                        <ng-template #template let-data>
+                            <span (click)='showFamilleArticles(data.famille)' class="spanFamille">{{data.famille}}</span>
+                        </ng-template>
+                    </e-column>
+                    <!-- <e-column field='designation' headerText='Désignation' width='160'></e-column> -->
+                    <e-column field='strategie' headerText='MAD' width='120' textAlign='Center'>
+                         <ng-template #template let-data>
+                            <div>
+                                <!-- <span id="Emptext">{{getMadFamille(dataFamille.commande_g,dataFamille.previsions)}}</span> -->
+                                <span *ngIf="data">{{mad2(data.commande_c,data.previsions_c)}}</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='Freight' headerText='Tracking Signal' width='150' textAlign='Center'>
+                         <ng-template #template let-data>
+                            <div>
+                              <!--   <span id="Emptext">{{tracksignalFamille(dataFamille.commande_g,dataFamille.previsions)}}</span> -->
+                              <span>{{tracksignal(data.commande_c,data.previsions_c)}}</span>
+                              </div>                  
+                        </ng-template>
+                    </e-column>
+                    <e-column field='ShipCountry' headerText='' width='150' textAlign='Center'>
+                        <ng-template #template let-data>
+                            <ion-icon name="bar-chart" (click)="onOpenDialog(data.famille)"></ion-icon>
+                        </ng-template>
+                    </e-column>
+                </e-columns>
+            </ejs-grid>
+        
+        </div>
+
+
+        <!-- chart -->
+        <div class="control-section">
+
+            <!-- Render Button to open the Dialog -->        
+            <ejs-dialog #Dialog [header]='header'  [visible]='false'
+                [showCloseIcon]='showCloseIcon' [target]='target' [width]='width' [height]='height' style="max-height: none;">
+                <ng-template #content>
+                    <div >
+                        <div class="control-section">
+                            <ejs-grid #grid [dataSource]='dataTableDetails' >
+                                <e-columns>
+                                    <e-column field='famille' headerText='Période' width='120'>
+                                        <ng-template #template let-data>
+                                            <span class="poin">{{data?.periode}}</span>
+                                        </ng-template>
+                                    </e-column>
+                                    <!-- <e-column field='designation' headerText='Désignation' width='160'></e-column> -->
+                                    <e-column field='strategie' headerText='Prévisions' width='120' textAlign='Center'>
+                                        <ng-template #template let-data>
+                                           <div>
+                                               <!-- <span id="Emptext">{{getMadFamille(dataFamille.commande_g,dataFamille.previsions)}}</span> -->
+                                               <span *ngIf="data">{{data?.prevision}}</span>
+                                             </div>                  
+                                       </ng-template>
+                                   </e-column>
+                                   <e-column field='strategie' headerText='Demandes' width='120' textAlign='Center'>
+                                    <ng-template #template let-data>
+                                       <div>
+                                           <!-- <span id="Emptext">{{getMadFamille(dataFamille.commande_g,dataFamille.previsions)}}</span> -->
+                                           <span *ngIf="data">{{data?.demande}}</span>
+                                         </div>                  
+                                   </ng-template>
+                               </e-column>
+                                    <e-column field='strategie' headerText='MAD' width='120' textAlign='Center'>
+                                         <ng-template #template let-data>
+                                            <div>
+                                                <!-- <span id="Emptext">{{getMadFamille(dataFamille.commande_g,dataFamille.previsions)}}</span> -->
+                                                <span *ngIf="data">{{data?.mad}}</span>
+                                              </div>                  
+                                        </ng-template>
+                                    </e-column>
+                                    <e-column field='Freight' headerText='Tracking Signal' width='150' textAlign='Center'>
+                                         <ng-template #template let-data>
+                                            <div>
+                                              <!--   <span id="Emptext">{{tracksignalFamille(dataFamille.commande_g,dataFamille.previsions)}}</span> -->
+                                              <span>{{data?.tracking}}</span>
+                                              </div>                  
+                                        </ng-template>
+                                    </e-column>
+                                </e-columns>
+                            </ejs-grid>
+                        
+                        </div>
+                        <!-- chart ici -->
+                        <ejs-chart #chart id="chart-container" [primaryXAxis]='primaryXAxis' [tooltip]='tooltip' width='1255' height='300'>
+                            <e-series-collection>
+                                <e-series [dataSource]='chartDataa' type='Column' columnWidth="0.3"  xName='month' yName='prev' name='Prévision' [marker]='marker'></e-series>
+                                <e-series [dataSource]='chartDatab' type='Column' columnWidth="0.3" xName='month' yName='dmd' name='Demande' [marker]='marker'></e-series>
+                                <e-series [dataSource]='chartData2' type='Line' width="4"  xName='month' yName='MAD' name='MAD' [marker]='marker'></e-series>
+                                
+                                <!-- <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='gold'></e-series> -->
+                            </e-series-collection>
+                        </ejs-chart>
+                </div>
+                </ng-template>
+            </ejs-dialog>
+        </div>
+
+        <!-- chart -->
+        <div class="control-section">
+
+            <!-- Render Button to open the Dialog -->        
+            <ejs-dialog #Dialogb [header]='headerb'  [visible]='false'
+                [showCloseIcon]='showCloseIconb' [target]='targetb' [width]='widthb' [height]='heightb' style="max-height: none;">
+                <ng-template #content>
+                    <div >
+                        <!-- chart ici -->
+                        <ejs-chart #charta id="chart-container" [primaryXAxis]='primaryXAxis' [tooltip]='tooltip' width='1255' height='300'>
+                            <e-series-collection>
+                                <e-series [dataSource]='chartDataa' type='Line' xName='month' yName='MAD' name='MAD' [marker]='marker'></e-series>
+                                <e-series [dataSource]='chartDatab' type='Line' xName='month' yName='MAD' name='MAD' [marker]='marker'></e-series>
+                            </e-series-collection>
+                        </ejs-chart>
+                        <!-- chart ici -->
+                        <ejs-chart #chartb id="chart-container" [primaryXAxis]='primaryXAxis' [tooltip]='tooltip' width='1255' height='300'>
+                            <e-series-collection>
+                                <e-series [dataSource]='chartDatac' type='Line' xName='month' yName='MAD' name='MAD' [marker]='marker'></e-series>
+                            </e-series-collection>
+                        </ejs-chart>
+                </div>
+                </ng-template>
+            </ejs-dialog>
+        </div>
+
+
+      
+
+    </div>
+</div>
+
+
+<div class="control-section">
+    <ejs-dialog style="left: 13%!important;" #articlesMAD [header]='headera'  [visible]='false'
+        [showCloseIcon]='showCloseIcona' [target]='targeta' [width]='widtha' [height]='heighta' style="max-height: none;">
+        <ng-template #content>
+            <div class="control-section">
+                <span class="loading" *ngIf='dataLoadingArticle'>
+                    <i class="fas fa-spinner fa-spin"></i> Chargement des données....
+                </span>
+                            <ejs-grid #gridarticleo [dataSource]='dataGlobal' allowPaging='true' [pageSettings]='initialPage' allowSorting='true'  [toolbar]='toolbar'>
+                                <e-columns>
+                                    <e-column field='code' headerText='Code' width='100'></e-column>
+                                    <e-column field='designation' headerText='Désignation' width='300'></e-column>
+                                    <e-column field='prevision' format='###.##' headerText='Prévision' width='120' textAlign='Center'>
+                                         <ng-template #template let-data>
+                                            <div>
+                                                <span id="Emptext" *ngIf="data">{{data.prevision || 'Erreur Prévisions'}}</span>
+                                              </div>                  
+                                        </ng-template>
+                                    </e-column>
+                                    <e-column field='demande' headerText='Demande' width='120' textAlign='Center'></e-column>
+                                    <e-column field='ecart' headerText='Ecarts' width='120' textAlign='Center'></e-column>
+                                    <e-column field='mad' headerText='MAD' width='120' textAlign='Center'>
+                                   
+                                    </e-column>
+                                    <e-column field='tracking' headerText='Tracking Signal' width='120' textAlign='Center'>
+                                    </e-column>
+                                    <e-column field='ShipCountry' headerText='' width='60' textAlign='Center'>
+                                        <ng-template #template let-data>
+                                            <ion-icon name="bar-chart" (click)="onOpenDialogarticle(data?.code)"></ion-icon>
+                                        </ng-template>
+                                    </e-column>
+                                </e-columns>
+                            </ejs-grid>
+                           
+                        
+                        </div>
+        </ng-template>
+    </ejs-dialog>
+</div>
+
+
+
+<div class="control-section">
+
+    <!-- Render Button to open the Dialog -->        
+    <ejs-dialog #Dialogarticle [header]='headers'  [visible]='false'
+        [showCloseIcon]='showCloseIcon' [target]='targets' [width]='width' [height]='height' style="max-height: none;">
+        <ng-template #content>
+            <div >
+                <div class="control-section">
+                    <ejs-grid #grid [dataSource]='dataTableArticleDetails'>
+                        <e-columns>
+                            <e-column field='famille' headerText='Période' width='120'>
+                                <ng-template #template let-data>
+                                    <span class="poin">{{data?.periode}}</span>
+                                </ng-template>
+                            </e-column>
+                            <!-- <e-column field='designation' headerText='Désignation' width='160'></e-column> -->
+                            <e-column field='strategie' headerText='Prévisions' width='120' textAlign='Center'>
+                                <ng-template #template let-data>
+                                   <div>
+                                       <!-- <span id="Emptext">{{getMadFamille(dataFamille.commande_g,dataFamille.previsions)}}</span> -->
+                                       <span *ngIf="data">{{data?.prevision}}</span>
+                                     </div>                  
+                               </ng-template>
+                           </e-column>
+                           <e-column field='strategie' headerText='Demandes' width='120' textAlign='Center'>
+                            <ng-template #template let-data>
+                               <div>
+                                   <!-- <span id="Emptext">{{getMadFamille(dataFamille.commande_g,dataFamille.previsions)}}</span> -->
+                                   <span *ngIf="data">{{data?.demande}}</span>
+                                 </div>                  
+                           </ng-template>
+                       </e-column>
+                            <e-column field='strategie' headerText='MAD' width='120' textAlign='Center'>
+                                 <ng-template #template let-data>
+                                    <div>
+                                        <!-- <span id="Emptext">{{getMadFamille(dataFamille.commande_g,dataFamille.previsions)}}</span> -->
+                                        <span *ngIf="data">{{data?.mad}}</span>
+                                      </div>                  
+                                </ng-template>
+                            </e-column>
+                            <e-column field='Freight' headerText='Tracking Signal' width='150' textAlign='Center'>
+                                 <ng-template #template let-data>
+                                    <div>
+                                      <!--   <span id="Emptext">{{tracksignalFamille(dataFamille.commande_g,dataFamille.previsions)}}</span> -->
+                                      <span>{{data?.tracking}}</span>
+                                      </div>                  
+                                </ng-template>
+                            </e-column>
+                        </e-columns>
+                    </ejs-grid>
+                
+                </div>
+                <!-- chart ici -->
+                <ejs-chart #chartm id="chart-container" [primaryXAxis]='primaryXAxis' [tooltip]='tooltip' width='1255' height='300'>
+                    <e-series-collection>
+                        <e-series [dataSource]='chartDatau' type='Column' columnWidth="0.3"  xName='month' yName='prev' name='Prévision' [marker]='marker'></e-series>
+                        <e-series [dataSource]='chartDatay' type='Column' columnWidth="0.3" xName='month' yName='dmd' name='Demande' [marker]='marker'></e-series>
+                        <e-series [dataSource]='chartDatai' type='Line' width="4"  xName='month' yName='MAD' name='MAD' [marker]='marker'></e-series>
+                        
+                        <!-- <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='gold'></e-series> -->
+                    </e-series-collection>
+                </ejs-chart>
+        </div>
+        </ng-template>
+    </ejs-dialog>
+</div>

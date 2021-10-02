@@ -1,0 +1,86 @@
+<div style="position: fixed;z-index: 1000;"> 
+<div class="menu">
+            <div class="menu-items center-v">
+                <img class="EE-logo" [routerLink]="['/home']" src="assets/logo.png" alt="" style="background-color: white;
+                border-radius: 17px;
+                width: 50px;">
+            </div>
+            <div class="menu-items center-v" style="margin-top:13vh;" >
+                <i class="fas fa-sliders-h"></i>
+            </div>
+            <div class="menu-items center-v" (click)="selectMenu(2)" data-tooltip="Demande Management" data-flow="right">
+                <i class="fas fa-chart-area " [class.menu-a] = "menu2"></i>
+            </div>
+            <div class="menu-items active center-v" (click)="selectMenu(3)" data-tooltip="Master Scheduling" data-flow="right">
+                <i class="fas fa-calendar-alt" [class.menu-a] = "menu3"></i>
+            </div>
+            <div class="menu-items center-v " (click)="selectMenu(4)" data-tooltip="S&OP" data-flow="right">
+                <i class="fas fa-file-alt"  [class.menu-a] = "menu4"></i>
+            </div>
+            <div class="menu-items center-v">
+               <a href="#/pyramidale"> <i class="fas fa-suitcase"></i> </a>
+            </div>
+            <div class="menu-items center-v" style="margin-top: 13vh;" (click)="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+            <br>
+        </div>
+        <div class="menu-2" *ngIf="menu2">
+            
+            <div class="menu-items m-deux center-v" >
+                <a href="#/coefficient" data-tooltip="Coefficient de Variation" data-flow="right"><i class="far fa-eye " [class.sub-a]="menuItem == 0" ></i></a>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <a href="#/biais" data-tooltip="Biais" data-flow="right"><i class="fas fa-hand-pointer" [class.sub-a]="menuItem == 1"></i></a>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <a href="#/mad" data-tooltip="MAD" data-flow="right"> <i class="fas fa-signal" [class.sub-a]="menuItem == 2"></i></a>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <a href="#/stocksecurite" data-tooltip="Stock Sécurité" data-flow="right"> <i class="far fa-sticky-note" [class.sub-a]="menuItem == 3"></i> </a>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <a href="#/statistique" data-tooltip="Génération Prévision Statistique" data-flow="right"><i class="fas fa-sticky-note" [class.sub-a]="menuItem == 4"></i></a>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <a href="#/simulation" data-tooltip="Choix de la Méthode" data-flow="right"><i class="fas fa-sticky-note" [class.sub-a]="menuItem == 5"></i></a>
+            </div>
+          
+            <br>
+        </div>
+        <div class="menu-2" *ngIf="menu3">
+            
+            <div class="menu-items m-deux center-v" >
+                <a href="#/generation-commande" data-tooltip="Génération des Commandes" data-flow="right"><i class="far fa-luggage-cart" [class.sub-a]="menuItem == 0" ></i></a>
+            </div>
+            <!-- <div class="menu-items m-deux center-v">
+                <a href="#/biais" ><i class="fas fa-hand-pointer" [class.sub-a]="menuItem == 1"></i></a>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <a href="#/mad" > <i class="fas fa-signal" [class.sub-a]="menuItem == 2"></i></a>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <a href="#/stocksecurite" > <i class="far fa-sticky-note" [class.sub-a]="menuItem == 3"></i> </a>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <a href="#/statistique" ><i class="fas fa-sticky-note" [class.sub-a]="menuItem == 4"></i></a>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <a href="#/methode" ><i class="fas fa-sticky-note" [class.sub-a]="menuItem == 5"></i></a>
+            </div>
+           -->
+            <br>
+        </div>
+        <div class="menu-2" *ngIf="menu4">
+            
+            <div class="menu-items m-deux center-v" >
+                <a href="#/snop" data-tooltip="S&OP" data-flow="right"><i class="far fa-eye " [class.sub-a]="menuItem == 9" ></i></a>
+            </div>
+            <div class="menu-items m-deux center-v">
+                <a href="#/snopdetails" data-tooltip="S&OP Détails" data-flow="right"><i class="fas fa-hand-pointer" [class.sub-a]="menuItem == 10"></i></a>
+            </div>
+          
+            <br>
+        </div>
+</div>
+
