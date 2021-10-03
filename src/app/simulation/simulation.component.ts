@@ -29,7 +29,7 @@ export class SimulationComponent implements OnInit {
 
   FamilleListe: any
   getFamilleListe(){
-    this.http.get<any>('http://localhost:8000/api/params', this.httpOptions).map(res => res).subscribe(data => {
+    this.http.get<any>('http://stepup.ma/espace-equipement-api/api/params', this.httpOptions).map(res => res).subscribe(data => {
       this.FamilleListe = data.familles
     }, err => {
       console.log(JSON.stringify(err));
@@ -198,7 +198,7 @@ bestMethode(code){
     postData.append('id', idd);
     postData.append('methode', methode);
     console.log('liste des TABLEDATA',this.tableData)
-    this.http.post<any>('http://localhost:8000/api/simulation/confirm',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/simulation/confirm',postData,this.httpOptions).map((res) => res).subscribe((data) => {
       var methode = data
       var index = this.tableData.findIndex(({id})=> id===idd)
       console.log('lindex est de ',index)
@@ -244,7 +244,7 @@ bestMethode(code){
     postData.append('familleid', this.familleID);
     postData.append('code', this.articleText);
     // postData.append('code','170F');
-   this.http.post<any>('http://localhost:8000/api/simulation?page='+page,postData,this.httpOptions).map((res) => res).subscribe((data) => {
+   this.http.post<any>('http://stepup.ma/espace-equipement-api/api/simulation?page='+page,postData,this.httpOptions).map((res) => res).subscribe((data) => {
     this.lastPage = data.last_page
     this.currentPage = data.current_page
     this.dataLoading = false

@@ -1,4 +1,4 @@
-this.http.post<any>('http://localhost:8000/api/mMobile?page=1',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+this.http.post<any>('http://stepup.ma/espace-equipement-api/api/mMobile?page=1',postData,this.httpOptions).map((res) => res).subscribe((data) => {
           
 
           this.dataArticleDetailMoyenne = this.getmoyenneMobileArticleDetail(data.data[0].commande_m)

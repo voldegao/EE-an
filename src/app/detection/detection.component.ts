@@ -40,7 +40,7 @@ export class DetectionComponent implements OnInit {
       this.dataLoading = true
       postData.append('dateDebut', this.dateDebut);
       postData.append('dateFin',this.dateFin);
-       this.http.post<any>('http://localhost:8000/api/biaisFamille?page='+id, postData, this.httpOptions).map(res => res).subscribe(data => {
+       this.http.post<any>('http://stepup.ma/espace-equipement-api/api/biaisFamille?page='+id, postData, this.httpOptions).map(res => res).subscribe(data => {
 
        this.data = data.data
        this.totalItems = data.total
@@ -152,7 +152,7 @@ export class DetectionComponent implements OnInit {
       postData.append('dateFin',this.dateFin);
       postData.append('famille',this.familleName);
       this.dataLoadingArticles = true
-       this.http.post<any>('http://localhost:8000/api/biais?page='+id, postData, this.httpOptions).map(res => res).subscribe(data => {
+       this.http.post<any>('http://stepup.ma/espace-equipement-api/api/biais?page='+id, postData, this.httpOptions).map(res => res).subscribe(data => {
 
        this.articlesData = data.data
        this.dataLoadingArticles = false

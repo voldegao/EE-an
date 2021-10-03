@@ -5,12 +5,13 @@ import 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 import { DataManager, WebApiAdaptor } from '@syncfusion/ej2-data';
-import { GridComponent, PageSettingsModel } from '@syncfusion/ej2-angular-grids';
+import { GridComponent,ToolbarItems,PageSettingsModel } from '@syncfusion/ej2-angular-grids';
 import { ILoadedEventArgs, ChartTheme } from '@syncfusion/ej2-angular-charts';
 import { PageEventArgs, PageService } from '@syncfusion/ej2-angular-grids'
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EmitType } from '@syncfusion/ej2-base';
 import { ChartComponent} from '@syncfusion/ej2-angular-charts';
+import { ClickEventArgs } from '@syncfusion/ej2-navigations'
 // import {MatSnackBar} from '@angular/material/snack-bar';
 
 
@@ -41,7 +42,7 @@ onCreate() {
 this.element.show();
 }
 
-toolbar: string[]
+toolbar: ToolbarItems[] | object;
 ngOnInit(): void {
   if (!window.localStorage.getItem('logged')) {
     window.location.href = "#/login";
@@ -63,11 +64,36 @@ ngOnInit(): void {
   this.getdata(1)
   this.getArticle()
   this.getParams()
-  this.toolbar = ['Search'];
+  this.toolbar = [
+                  { text: 'Filtrer',prefixIcon: 'e-filter', id: 'Click' },
+                  { text:this.dateDebut+' / '+this.dateFin,prefixIcon: 'e-date-time'},
+                  'CsvExport',
+                  'ExcelExport',
+                  'Print',
+                  'Search'
+                ];
 
    
 
 }
+
+toolbarClick(args: ClickEventArgs): void {
+  switch (args.item.text) {
+      case 'Filtrer':
+          this.FilterBtn()
+          break;
+      case 'PDF Export':
+          this.grid.pdfExport();
+          break;
+      case 'Excel Export':
+          this.grid.excelExport();
+          break;
+      case 'CSV Export':
+          this.grid.csvExport();
+          break;
+  }
+} 
+
 dataLoading = true
 dateDebut = this.debutYear()
 dateFin = this.halfYear()
@@ -186,7 +212,7 @@ changeStrat(id,val){
   let postData = new FormData();
   postData.append('id',id);
   postData.append('strategie', val);
-   this.http.post<any>('http://localhost:8000/api/change/strategie',postData, this.httpOptions).map(res => res).subscribe(data => {
+   this.http.post<any>('http://stepup.ma/espace-equipement-api/api/change/strategie',postData, this.httpOptions).map(res => res).subscribe(data => {
     console.log(data);
     this.element.show(this.toasts[0]);
   }, err => {
@@ -199,7 +225,7 @@ changeClasse(id,val){
   let postData = new FormData();
   postData.append('id',id);
   postData.append('classe', val);
-   this.http.post<any>('http://localhost:8000/api/change/classe',postData, this.httpOptions).map(res => res).subscribe(data => {
+   this.http.post<any>('http://stepup.ma/espace-equipement-api/api/change/classe',postData, this.httpOptions).map(res => res).subscribe(data => {
     console.log(data);
     this.element.show(this.toasts[0]);
   }, err => {
@@ -398,7 +424,7 @@ dataGlobal: any
     postData.append('zone', this.zoneFilter);
     postData.append('classe', this.classeFilter);
     postData.append('startegie', this.stratFilter);
-     this.http.post<any>('http://localhost:8000/api/cv?page='+page, postData, this.httpOptions).map(res => res).subscribe(data => {
+     this.http.post<any>('http://stepup.ma/espace-equipement-api/api/cv?page='+page, postData, this.httpOptions).map(res => res).subscribe(data => {
       // console.log(data);
       this.dataLoading = false
      this.data = data
@@ -441,7 +467,7 @@ dataLoadingArticle = false
     postData.append('zone', this.zoneFilter);
     postData.append('classe', this.classeFilter);
     postData.append('startegie', this.stratFilter);
-     this.http.post<any>('http://localhost:8000/api/cv?page='+page, postData, this.httpOptions).map(res => res).subscribe(data => {
+     this.http.post<any>('http://stepup.ma/espace-equipement-api/api/cv?page='+page, postData, this.httpOptions).map(res => res).subscribe(data => {
       this.dataLoadingArticle = false 
      this.ArticleData = data[0]
     //  console.log('loooooool')
@@ -513,7 +539,7 @@ dataLoadingArticle = false
     postData.append('zone', this.zoneFilter);
     postData.append('classe', this.classeFilter);
     postData.append('startegie', this.stratFilter);
-     this.http.post<any>('http://localhost:8000/api/cv?page=1', postData, this.httpOptions).map(res => res).subscribe(data => {
+     this.http.post<any>('http://stepup.ma/espace-equipement-api/api/cv?page=1', postData, this.httpOptions).map(res => res).subscribe(data => {
       // console.log(data);
      this.data = data
      this.totalItems = data.total
@@ -543,7 +569,7 @@ dataLoadingArticle = false
   }
 
   getParams(){
-     this.http.get<any>('http://localhost:8000/api/params', this.httpOptions).map(res => res).subscribe(data => {
+     this.http.get<any>('http://stepup.ma/espace-equipement-api/api/params', this.httpOptions).map(res => res).subscribe(data => {
         this.familles = data.familles
         this.clients = data.clients
         this.zones = data.zones
@@ -565,7 +591,7 @@ dataLoadingArticle = false
     postData.append('dateFin', this.dateFin);
     postData.append('code', this.selectedCode);
     
-     this.http.post<any>('http://localhost:8000/api/cvChart', postData, this.httpOptions).map(res => res).subscribe(data => {
+     this.http.post<any>('http://stepup.ma/espace-equipement-api/api/cvChart', postData, this.httpOptions).map(res => res).subscribe(data => {
        this.getrangeDateCv()
       this.setChartData(data)
      
@@ -866,7 +892,7 @@ getArticle(){
     postData.append('dateDebut',this.dateDebut);
     postData.append('dateFin', this.dateFin);
     postData.append('code',this.code);
-     this.http.post<any>('http://localhost:8000/api/cv?page=1', postData, this.httpOptions).map(res => res).subscribe(data => {
+     this.http.post<any>('http://stepup.ma/espace-equipement-api/api/cv?page=1', postData, this.httpOptions).map(res => res).subscribe(data => {
       // console.log("data pour l'article : ",data);
      this.dataArticle = data[0].commande_d
     //  console.log(data.data[0].commande_d.length)

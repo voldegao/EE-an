@@ -262,7 +262,7 @@ export class SnopdetailsComponent implements OnInit {
 
   FamilleListe: any
   getFamilleListe(){
-    this.http.get<any>('http://localhost:8000/api/params', this.httpOptions).map(res => res).subscribe(data => {
+    this.http.get<any>('http://stepup.ma/espace-equipement-api/api/params', this.httpOptions).map(res => res).subscribe(data => {
       this.FamilleListe = data.familles
     }, err => {
       console.log(JSON.stringify(err));
@@ -280,7 +280,7 @@ export class SnopdetailsComponent implements OnInit {
     postData.append('dateDebutStock', this.getDateRange().dateDebutStock);
     postData.append('dateFin', this.getDateRange().dateFin);
     postData.append('famille', this.familleID);
-    this.http.post<any>('http://localhost:8000/api/snop/details',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/snop/details',postData,this.httpOptions).map((res) => res).subscribe((data) => {
           // console.log('data is here ',data)
           this.dataLoading = false
           this.FamilleData = data
@@ -313,7 +313,7 @@ export class SnopdetailsComponent implements OnInit {
     var lst = d.getFullYear()+'-'+(d.getMonth()+1)+'-31'
     postData.append('dateDebut', one);
     postData.append('dateFin', lst);
-    this.http.post<any>('http://localhost:8000/api/snop/articles/'+this.familleID+'?page='+page,postData,this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/snop/articles/'+this.familleID+'?page='+page,postData,this.httpOptions).map((res) => res).subscribe((data) => {
           this.articlesData = data.data
           this.currentPage = data.current_page
           this.lastPage = data.last_page
@@ -677,7 +677,7 @@ publier(article,index){
     postData.append('newprevision', this.qte);
     postData.append('cause', this.cause);
     // console.log('ls data is here to sent ',article)
-    this.http.post<any>('http://localhost:8000/api/snop/article/prevision/edit',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/snop/article/prevision/edit',postData,this.httpOptions).map((res) => res).subscribe((data) => {
       console.log('data sent :',data)
       this.selectedline = null
       this.qte = null

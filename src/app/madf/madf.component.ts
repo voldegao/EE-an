@@ -490,7 +490,7 @@ export class MadfComponent implements OnInit {
       let postData = new FormData();
       postData.append('dateDebut', this.debut());
       postData.append('dateFin',this.fin());
-       this.http.post<any>('http://localhost:8000/api/mad?page='+this.currentpage, postData, this.httpOptions).map(res => res).subscribe(data => {
+       this.http.post<any>('http://stepup.ma/espace-equipement-api/api/mad?page='+this.currentpage, postData, this.httpOptions).map(res => res).subscribe(data => {
         // console.log(data);
        this.data = data.data
        
@@ -506,7 +506,7 @@ export class MadfComponent implements OnInit {
       let postData = new FormData();
       postData.append('dateDebut', this.debut());
       postData.append('dateFin',this.fin());
-       this.http.post<any>('http://localhost:8000/api/madFamille?page='+id, postData, this.httpOptions).map(res => res).subscribe(data => {
+       this.http.post<any>('http://stepup.ma/espace-equipement-api/api/madFamille?page='+id, postData, this.httpOptions).map(res => res).subscribe(data => {
         // console.log(data);
        this.dataFamille = data;
        this.dataLoading = false
@@ -523,7 +523,7 @@ export class MadfComponent implements OnInit {
       postData.append('dateDebut',this.dateDebutGraph());
       postData.append('dateFin',this.fin());
       postData.append('famille',this.familleNameDetail);
-       this.http.post<any>('http://localhost:8000/api/madFamille?page='+id, postData, this.httpOptions).map(res => res).subscribe(data => {
+       this.http.post<any>('http://stepup.ma/espace-equipement-api/api/madFamille?page='+id, postData, this.httpOptions).map(res => res).subscribe(data => {
         // console.log(data);
        this.dataDetails= data[0];
        this.detailFamilleTS = this.tracksignal(this.dataDetails.commande_g,this.dataDetails.previsions)
@@ -544,7 +544,7 @@ export class MadfComponent implements OnInit {
       postData.append('dateDebut', this.dateDebutGraph());
       postData.append('dateFin',this.fin());
       postData.append('code',this.articleCode);
-       this.http.post<any>('http://localhost:8000/api/mad?page='+id, postData, this.httpOptions).map(res => res).subscribe(data => {
+       this.http.post<any>('http://stepup.ma/espace-equipement-api/api/mad?page='+id, postData, this.httpOptions).map(res => res).subscribe(data => {
        
        this.articleDataDetail= data[0];
       //  this.articleTS = this.tracksignal(this.articleDataDetail.commande_d,this.articleDataDetail.previsions)
@@ -607,7 +607,7 @@ getarticlesdata(id){
       postData.append('famille',this.familleName);
       this.dataGlobal = []
       this.dataLoadingArticle = true
-       this.http.post<any>('http://localhost:8000/api/mad?page='+id, postData, this.httpOptions).map(res => res).subscribe(data => {
+       this.http.post<any>('http://stepup.ma/espace-equipement-api/api/mad?page='+id, postData, this.httpOptions).map(res => res).subscribe(data => {
         this.dataLoadingArticle = false
        this.articlesData = data
       console.log('data,',data)

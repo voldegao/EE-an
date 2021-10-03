@@ -34,7 +34,7 @@ export class MadComponent implements OnInit {
       let postData = new FormData();
       postData.append('dateDebut', this.dateDebut);
       postData.append('dateFin',this.dateFin);
-       this.http.post<any>('http://localhost:8000/api/mad?page='+this.currentpage, postData, this.httpOptions).map(res => res).subscribe(data => {
+       this.http.post<any>('http://stepup.ma/espace-equipement-api/api/mad?page='+this.currentpage, postData, this.httpOptions).map(res => res).subscribe(data => {
         // console.log(data);
        this.data = data.data
        

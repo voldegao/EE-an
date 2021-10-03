@@ -8,25 +8,14 @@
     <div class="containerr">
         <div class="row">
             <div class="col-md-12">
+                <h2>Coefficient de Variations</h2>
                 <ul class="bread">
-                    <li>Dashboard</li>
+                    <li><a href=""><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li class="slash">\</li>
                     <li>Demand Management</li>
-                    <li class="selected">Coefficient de Variation</li>
+                    <li class="selected"><a href="">Coefficient de Variation</a></li>
                 </ul>
-                <div class="big-titre" style="text-align: center;">Coefficient de variation</div>
-            </div>
-        </div>
-        <div class="row ">
-            <div class="col-md-5 center-v-l">
-                <button class="btn btn-primary button-filter " (click)="FilterBtn()">
-                  <i class="fas fa-filter"></i> Filter</button>
-                <div class="filterDate">
-                    <!-- <span>Date debut</span>
-                    <input placeholder="Date" class="textbox-n" type="text" onfocus="(this.type='date')">
-                    <span>Date Fin:</span>
-                    <input type="date"> -->
-                    {{dateDebut}} - {{dateFin}}
-                </div>
+               
             </div>
         </div>
         
@@ -34,7 +23,7 @@
             <span class="loading" style="padding-top: 6.5%;margin-left: -8%;"  *ngIf='dataLoading'>
                 <i class="fas fa-spinner fa-spin"></i> Chargement des données....
             </span>
-            <ejs-grid #grid [dataSource]='dataGlobal' allowPaging='true' allowSorting='true' [pageSettings]='initialPage' [toolbar]='toolbar'>
+            <ejs-grid #grid [dataSource]='dataGlobal' allowPaging='true' (toolbarClick)='toolbarClick($event)' [allowExcelExport]='true' allowSorting='true' [pageSettings]='initialPage' [toolbar]='toolbar'>
                 <!-- <ng-template #detailTemplate let-data>
                     <dir>
                         <table>

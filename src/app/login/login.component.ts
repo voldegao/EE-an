@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
       })
     };
 
-    this.http.get<any>('http://localhost:8000/api/validate/auth', httpOptions).map(res => res).subscribe(data => {
+    this.http.get<any>('http://stepup.ma/espace-equipement-api/api/validate/auth', httpOptions).map(res => res).subscribe(data => {
       if (data == 1) {
         console.log('success...');
         window.localStorage.setItem('ESP_token_valid', 'true');
@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
     let postData = new FormData();
       postData.append('email', this.email);
       postData.append('password',this.password);
-       this.http.post<any>('http://localhost:8000/api/login', postData).map(res => res).subscribe(data => {
+       this.http.post<any>('http://stepup.ma/espace-equipement-api/api/login', postData).map(res => res).subscribe(data => {
         console.log(data);
         if (data.access_token) {
          

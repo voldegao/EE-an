@@ -106,7 +106,7 @@ this.Dialog.show();
       let postData = new FormData();
       postData.append('dateDebut', this.dateDebut);
       postData.append('dateFin',this.dateFin);
-       this.http.post<any>('http://localhost:8000/api/cv?page='+page, postData, this.httpOptions).map(res => res).subscribe(data => {
+       this.http.post<any>('http://stepup.ma/espace-equipement-api/api/cv?page='+page, postData, this.httpOptions).map(res => res).subscribe(data => {
         console.log(data);
        this.data = data.data
        this.totalItems = data.total
@@ -161,7 +161,7 @@ this.Dialog.show();
       postData.append('dateDebut', this.dateDebut);
       postData.append('dateFin',this.dateFin);
       postData.append('code',this.code);
-       this.http.post<any>('http://localhost:8000/api/cv?page=1', postData, this.httpOptions).map(res => res).subscribe(data => {
+       this.http.post<any>('http://stepup.ma/espace-equipement-api/api/cv?page=1', postData, this.httpOptions).map(res => res).subscribe(data => {
         console.log("data pour l'article : ",data);
        this.dataArticle = data.data[0].commande_d
        console.log(data.data[0].commande_d.length)

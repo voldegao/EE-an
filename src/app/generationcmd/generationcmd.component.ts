@@ -82,7 +82,7 @@ export class GenerationcmdComponent implements OnInit {
   ArticleListefilter: any
   getAllArticles(){
     this.ArticleListefilter = []
-    this.http.get<any>('http://localhost:8000/api/master/articles/all', this.httpOptions).map(res => res).subscribe(data => {
+    this.http.get<any>('http://stepup.ma/espace-equipement-api/api/master/articles/all', this.httpOptions).map(res => res).subscribe(data => {
       for(var i = 0;i<data.length;i++){
       this.ArticleListefilter.push(data[i].designation)
       }
@@ -396,7 +396,7 @@ stockDateRange: any
     postData.append('code', this.articleCode);
     postData.append('article', this.articleName);
     postData.append('famille', this.familleName);
-    this.http.post<any>('http://localhost:8000/api/generation/data?page='+page, postData, this.httpOptions).map(res => res).subscribe(data => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/generation/data?page='+page, postData, this.httpOptions).map(res => res).subscribe(data => {
       this.dataLoading = false
       this.newData = []
       // this.pivotview.dataSourceSettings.dataSource = this.newData;
@@ -413,7 +413,7 @@ stockDateRange: any
 
   FamilleListe: any
   getFamilleListe(){
-    this.http.get<any>('http://localhost:8000/api/params', this.httpOptions).map(res => res).subscribe(data => {
+    this.http.get<any>('http://stepup.ma/espace-equipement-api/api/params', this.httpOptions).map(res => res).subscribe(data => {
       this.FamilleListe = data.familles
     }, err => {
       console.log(JSON.stringify(err));
@@ -423,7 +423,7 @@ stockDateRange: any
   ParametresD: any
   delaiG: any
   getDefaultParam(){
-    this.http.get<any>('http://localhost:8000/api/master/default/params', this.httpOptions).map(res => res).subscribe(data => {
+    this.http.get<any>('http://stepup.ma/espace-equipement-api/api/master/default/params', this.httpOptions).map(res => res).subscribe(data => {
       this.ParametresD = data
       this.lot = data.lot
       this.delai = data.delai
@@ -442,7 +442,7 @@ stockDateRange: any
     postData.append('delai',this.delai);
     postData.append('dtf',this.dtf);
     postData.append('article_id',this.selectedParamArticle);
-    this.http.post<any>('http://localhost:8000/api/master/params', postData, this.httpOptions).map(res => res).subscribe(data => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/master/params', postData, this.httpOptions).map(res => res).subscribe(data => {
        this.Dialog.hide()
        this.ArticleListe = []
        this.selectedParamArticle = ''
@@ -460,7 +460,7 @@ stockDateRange: any
   dtf: any
   statusPara = true
   getArticleListe(id){
-    this.http.get<any>('http://localhost:8000/api/articles/'+id, this.httpOptions).map(res => res).subscribe(data => {
+    this.http.get<any>('http://stepup.ma/espace-equipement-api/api/articles/'+id, this.httpOptions).map(res => res).subscribe(data => {
       this.ArticleListe = data
 
     }, err => {
@@ -476,7 +476,7 @@ stockDateRange: any
 
 selectArticle(id) {
   this.selectedParamArticle = id
-  this.http.get<any>('http://localhost:8000/api/master/params/'+id, this.httpOptions).map(res => res).subscribe(data => {
+  this.http.get<any>('http://stepup.ma/espace-equipement-api/api/master/params/'+id, this.httpOptions).map(res => res).subscribe(data => {
     // console.log('this is arams ;',data)
     this.lot = data.lot
     this.delai = data.delai
@@ -1311,7 +1311,7 @@ cli(){
 
   articleNameData: any
 getArticleByname(name){
-  this.http.get<any>('http://localhost:8000/api/master/articlebyname/'+name, this.httpOptions).map(res => res).subscribe(data => {
+  this.http.get<any>('http://stepup.ma/espace-equipement-api/api/master/articlebyname/'+name, this.httpOptions).map(res => res).subscribe(data => {
       this.articleNameData = data.id
       // console.log('rticle',data)
     }, err => {
@@ -1347,7 +1347,7 @@ confirm(){
   postData.append('article_id',this.articleNameData);
   postData.append('month',month);
   postData.append('po_release',articleDataList[8].Amount);
-  this.http.post<any>('http://localhost:8000/api/generation/data/confirmation', postData, this.httpOptions).map(res => res).subscribe(data => {
+  this.http.post<any>('http://stepup.ma/espace-equipement-api/api/generation/data/confirmation', postData, this.httpOptions).map(res => res).subscribe(data => {
     //  console.log('confirmation data : ',data)
     }, err => {
       console.log(JSON.stringify(err));
@@ -1397,7 +1397,7 @@ showInput(data,i){
   postData.append('month_rec',dater);
   postData.append('date',date);
   postData.append('po_release',amount);
-  this.http.post<any>('http://localhost:8000/api/generation/data/confirmation', postData, this.httpOptions).map(res => res).subscribe(data => {
+  this.http.post<any>('http://stepup.ma/espace-equipement-api/api/generation/data/confirmation', postData, this.httpOptions).map(res => res).subscribe(data => {
    
     //  console.log('confirmation data : ',data)
      this.focused = ''
@@ -1460,7 +1460,7 @@ getPo(){
    let postData = new FormData();
   postData.append('first',firstDate);
   postData.append('last',lastDate);
-  this.http.post<any>('http://localhost:8000/api/confirm/po', postData, this.httpOptions).map(res => res).subscribe(data => {
+  this.http.post<any>('http://stepup.ma/espace-equipement-api/api/confirm/po', postData, this.httpOptions).map(res => res).subscribe(data => {
     //  console.log('La liste des confirmation de la DB :: ',data)
      this.listeConfirmation = data
     }, err => {

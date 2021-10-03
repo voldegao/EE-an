@@ -29,7 +29,7 @@ export class RalanceComponent implements OnInit {
   FamilleListe: any
   familleD: any
   getFamilleListe(){
-    this.http.get<any>('http://localhost:8000/api/params', this.httpOptions).map(res => res).subscribe(data => {
+    this.http.get<any>('http://stepup.ma/espace-equipement-api/api/params', this.httpOptions).map(res => res).subscribe(data => {
       this.FamilleListe = data.familles
     }, err => {
       console.log(JSON.stringify(err));
@@ -52,7 +52,7 @@ export class RalanceComponent implements OnInit {
     postData.append('dateFin', fin);
     postData.append('familleID', id);
     this.dataLoading = true
-    this.http.post<any>('http://localhost:8000/api/ralance/articles',postData, this.httpOptions).map(res => res).subscribe(data => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/ralance/articles',postData, this.httpOptions).map(res => res).subscribe(data => {
       this.dataLoading = false
       this.ArticleListe = data
     }, err => {

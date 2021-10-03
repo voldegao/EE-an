@@ -76,7 +76,7 @@ export class SnopComponent implements OnInit {
 
  FamilleListe: any
   getFamilleListe(){
-    this.http.get<any>('http://localhost:8000/api/params', this.httpOptions).map(res => res).subscribe(data => {
+    this.http.get<any>('http://stepup.ma/espace-equipement-api/api/params', this.httpOptions).map(res => res).subscribe(data => {
       this.FamilleListe = data.familles
     }, err => {
       console.log(JSON.stringify(err));
@@ -212,7 +212,7 @@ export class SnopComponent implements OnInit {
     postData.append('dateDebutStock', this.getDateRange().datestockDebut);
     postData.append('dateFin', this.getDateRange().dateFin);
     postData.append('famille', this.Familleid);
-    this.http.post<any>('http://localhost:8000/api/snop/prevision',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/snop/prevision',postData,this.httpOptions).map((res) => res).subscribe((data) => {
           // console.log('data is here ',data)
           this.FamilleData = data
           this.setPeriode(data[0].previsions)

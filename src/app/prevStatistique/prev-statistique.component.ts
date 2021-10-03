@@ -104,7 +104,7 @@ export class PrevStatistiqueComponent implements OnInit {
 
 selectedAlpha = 0.7
  getAlpha(){
-   this.http.get<any>('http://localhost:8000/api/alpha',this.httpOptions).map((res) => res).subscribe((data) => {
+   this.http.get<any>('http://stepup.ma/espace-equipement-api/api/alpha',this.httpOptions).map((res) => res).subscribe((data) => {
           this.selectedAlpha = data[0].alpha;
       },
         (err) => {
@@ -122,7 +122,7 @@ validateAlpha(){
  changeAlpha(){
   let postData = new FormData();
     postData.append('alpha', this.selectedAlpha.toString());
-     this.http.post<any>('http://localhost:8000/api/alpha/edit',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+     this.http.post<any>('http://stepup.ma/espace-equipement-api/api/alpha/edit',postData,this.httpOptions).map((res) => res).subscribe((data) => {
          this.selectedAlpha = data;
       },
         (err) => {
@@ -213,7 +213,7 @@ this.primaryXAxis = {valueType: 'Category'};
     postData.append('dateDebut2', threedeb);
     postData.append('dateFin2', threefin);
     postData.append('famille', this.familleFiltere);
-    this.http.post<any>('http://localhost:8000/api/mMobile?page=' + id,postData,this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/mMobile?page=' + id,postData,this.httpOptions).map((res) => res).subscribe((data) => {
           this.dataFamille = data;
           this.dataLoading = false
           var an1 = data
@@ -363,7 +363,7 @@ getIDS(){
     postData.append('dateFin2', threefin);
     postData.append('famille', this.currentFamile);
     // postData.append('famille', '2');
-    this.http.post<any>('http://localhost:8000/api/mMobile?page=1',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/mMobile?page=1',postData,this.httpOptions).map((res) => res).subscribe((data) => {
       this.dataLoadingChart = false
       this.lesMois = []
           this.dataFamilleMoyenne = this.getmoyenneMobile(data[0].commande_m) //done
@@ -1078,7 +1078,7 @@ getIDS(){
     let postData = new FormData();
     postData.append('dateDebut', this.dateDebut);
     postData.append('dateFin', this.dateFin);
-    this.http.post<any>('http://localhost:8000/api/mMobile?page=' + id,postData,this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/mMobile?page=' + id,postData,this.httpOptions).map((res) => res).subscribe((data) => {
           this.dataFamille = data;
           this.ans1 = data;
         },
@@ -1110,7 +1110,7 @@ getIDS(){
     postData.append('dateDebut2', threedeb);
     postData.append('dateFin2', threefin);
     postData.append('famille', this.familleName);
-    this.http.post<any>('http://localhost:8000/api/aMobile?page=' + id,postData, this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/aMobile?page=' + id,postData, this.httpOptions).map((res) => res).subscribe((data) => {
           this.articlesData = data;
           // console.log('this is rticles data : ',this.articlesData)
           this.dataLoadingArticles = false
@@ -1467,7 +1467,7 @@ dataLoadingChart = false
   }
 
   getArticleDetailsMethode(id){
-    this.http.get<any>('http://localhost:8000/api/article/methode/type/'+id,this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.get<any>('http://stepup.ma/espace-equipement-api/api/article/methode/type/'+id,this.httpOptions).map((res) => res).subscribe((data) => {
       if(data != 0){
         if(data.methode_id != null){
           this.methodeSelected = data.methode_id
@@ -1520,7 +1520,7 @@ dataLoadingChart = false
     postData.append('dateDebut2', threedeb);
     postData.append('dateFin2', threefin);
     postData.append('code', this.articleCodeID);
-   this.http.post<any>('http://localhost:8000/api/aMobile?page=1',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+   this.http.post<any>('http://stepup.ma/espace-equipement-api/api/aMobile?page=1',postData,this.httpOptions).map((res) => res).subscribe((data) => {
              this.dataLoadingArticleDetail = false
              this.lesMoisa = []
              this.dataArticleDetailMoyenne = this.getmoyenneMobile(data[0].commande_m)
@@ -1656,7 +1656,7 @@ listOfDates(): any{
     postData.append('listePrev', JSON.stringify(this.lissageExpoMaster));
     postData.append('methode', '2');
     postData.append('articleID', this.articleId);
-    this.http.post<any>('http://localhost:8000/api/prev/generate',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/prev/generate',postData,this.httpOptions).map((res) => res).subscribe((data) => {
       // this.getArticleDetailsMethode(this.articleCodeID)
       this.methodeSelected=2
       this.getarticlesdata(1);
@@ -1675,7 +1675,7 @@ listOfDates(): any{
     postData.append('listePrev', JSON.stringify(this.moyenneMobileMaster));
     postData.append('methode', '1');
     postData.append('articleID', this.articleId);
-    this.http.post<any>('http://localhost:8000/api/prev/generate',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/prev/generate',postData,this.httpOptions).map((res) => res).subscribe((data) => {
       // this.getArticleDetailsMethode(this.articleCodeID)
       this.methodeSelected=1
       this.getarticlesdata(1);
@@ -1697,7 +1697,7 @@ listOfDates(): any{
     postData.append('listePrev', JSON.stringify(this.regressionMaster));
     postData.append('methode', '3');
     postData.append('articleID', this.articleId);
-    this.http.post<any>('http://localhost:8000/api/prev/generate',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+    this.http.post<any>('http://stepup.ma/espace-equipement-api/api/prev/generate',postData,this.httpOptions).map((res) => res).subscribe((data) => {
       // this.getArticleDetailsMethode(this.articleCodeID)
       this.methodeSelected=3
       this.getarticlesdata(1);
@@ -1719,7 +1719,7 @@ listOfDates(): any{
   postData.append('listePrev', JSON.stringify(this.dataArticleDetailDecompositionMaster));
   postData.append('methode', '4');
   postData.append('articleID', this.articleId);
-  this.http.post<any>('http://localhost:8000/api/prev/generate',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+  this.http.post<any>('http://stepup.ma/espace-equipement-api/api/prev/generate',postData,this.httpOptions).map((res) => res).subscribe((data) => {
     // this.getArticleDetailsMethode(this.articleCodeID)
     this.methodeSelected=4
     this.getarticlesdata(1);
@@ -1769,7 +1769,7 @@ listOfDates(): any{
     postData.append('dateDebut2', threedeb);
     postData.append('dateFin2', threefin);
     postData.append('code', this.articleCodeID);
-   this.http.post<any>('http://localhost:8000/api/aMobile?page=1',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+   this.http.post<any>('http://stepup.ma/espace-equipement-api/api/aMobile?page=1',postData,this.httpOptions).map((res) => res).subscribe((data) => {
              this.getPeriodeRange(onedeb,onefin)
             //  console.log('Article Lissage expo sur 12 Mois Edited :: ',this.getLissageMaster(data.data[0].commande_m))
              this.lissageExpoMaster = this.getLissageMaster(data[0].commande_m)
@@ -1820,7 +1820,7 @@ listOfDates(): any{
     postData.append('dateFin1', twofin);
     postData.append('dateDebut2', threedeb);
     postData.append('dateFin2', threefin);
-   this.http.post<any>('http://localhost:8000/api/aMobile/count',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+   this.http.post<any>('http://stepup.ma/espace-equipement-api/api/aMobile/count',postData,this.httpOptions).map((res) => res).subscribe((data) => {
           this.articleCounts.push(data)
             //  console.log('Voici la liste des counts',this.articleCounts)
             //  console.log('alors une valuer ',this.articleCounts[0]['3'])
@@ -1863,7 +1863,7 @@ getArticleDetailsPrevPubli(familleid){
   postData.append('dateDebut2', threedeb);
   postData.append('dateFin2', threefin);
   postData.append('familleid', familleid);
- this.http.post<any>('http://localhost:8000/api/aMobile?page=1',postData,this.httpOptions).map((res) => res).subscribe((data) => {
+ this.http.post<any>('http://stepup.ma/espace-equipement-api/api/aMobile?page=1',postData,this.httpOptions).map((res) => res).subscribe((data) => {
            var dataPublication=[]
           //  console.log('data length :: ',data.length)
            for(var i=0;i<data.length;i++){
@@ -1896,7 +1896,7 @@ getArticleDetailsPrevPubli(familleid){
            let postData1 = new FormData();
            postData1.append('listeDates', JSON.stringify(this.listOfDates()));
            postData1.append('listePrev', JSON.stringify(dataPublication));
-           this.http.post<any>('http://localhost:8000/api/prev/generate/famille',postData1,this.httpOptions).map((res) => res).subscribe((data) => {
+           this.http.post<any>('http://stepup.ma/espace-equipement-api/api/prev/generate/famille',postData1,this.httpOptions).map((res) => res).subscribe((data) => {
               // console.log('data Sent to the server!!')
               this.loadingIcon = false
               this.loadID = 0

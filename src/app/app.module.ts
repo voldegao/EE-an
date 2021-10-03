@@ -4,9 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HashLocationStrategy,LocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-
 import { GridModule } from '@syncfusion/ej2-angular-grids';
-import { PageService, SortService, FilterService, GroupService,DetailRowService,AggregateService,EditSettingsModel, IEditCell, EditService } from '@syncfusion/ej2-angular-grids';
+import { PageService, SortService, FilterService, GroupService,DetailRowService, ExcelExportService, PdfExportService,AggregateService,EditSettingsModel, IEditCell, EditService } from '@syncfusion/ej2-angular-grids';
 import { ChartModule } from '@syncfusion/ej2-angular-charts';
 import { CategoryService, LegendService, TooltipService,ColumnSeriesService,StepLineSeriesService } from '@syncfusion/ej2-angular-charts';
 import { DataLabelService, LineSeriesService} from '@syncfusion/ej2-angular-charts';
@@ -105,6 +104,7 @@ import { ToastModule } from '@syncfusion/ej2-angular-notifications';
                   EditService,
                 AggregateService ,
                 StepLineSeriesService,
+                ExcelExportService, PdfExportService,
                 CategoryService, LegendService, TooltipService, DataLabelService, LineSeriesService,DetailRowService,{provide:LocationStrategy,useClass:HashLocationStrategy} ],
   bootstrap: [AppComponent]
 })
