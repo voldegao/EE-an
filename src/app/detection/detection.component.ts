@@ -174,7 +174,13 @@ export class DetectionComponent implements OnInit {
           biaisPercent:Number(bp),
           biaisPositive:Number(bpo)
         }
-        this.dataGlobal.push(x)
+        if(b != 'error' && bp !='error' && bpo != 'error' && isFinite(Number(bp)) == true){
+          
+          this.dataGlobal.push(x)
+        }else{
+          console.log('error founded ',x)
+        }
+        
         
        }
        console.log(this.dataGlobal)
@@ -404,6 +410,8 @@ getrangeDateBiaisE(){
       this.dmdSumarticle = sumDmd
       var biais = sumDmd-sumPrev
       return biais.toFixed(2)
+    }else{
+      return 'error'
     }
     
 
@@ -422,13 +430,16 @@ getrangeDateBiaisE(){
       
   }
   calculateBiaisArticlePercent(demandes,previsions){
+    
     if(previsions.length>0){
         var biais: any = this.calculateArticleBiais(demandes,previsions)
         var sum = this.dmdSumarticle
         var percent = 100*biais/sum
+        console.log('article o ',percent)
         return percent.toFixed(2)
+
       }else{
-        return NaN
+        return 'error'
       }
       
   }
@@ -505,7 +516,7 @@ getrangeDateBiaisE(){
       }
     return (100*bPos/per).toFixed(2);
     }else{
-      return NaN
+      return 'error'
     }
       
   }
